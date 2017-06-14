@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.examplenode;
+package org.knime.knip.course.node.example;
 
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
