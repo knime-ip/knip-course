@@ -46,31 +46,19 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.example;
+package org.knime.knip.course.knipnode.skeleton;
 
 import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
-import org.knime.core.node.defaultnodesettings.DialogComponentColumnNameSelection;
-import org.knime.knip.base.data.labeling.LabelingValue;
-import org.knime.knip.base.node.dialog.DialogComponentDimSelection;
 
 import net.imglib2.type.numeric.RealType;
 
 /**
- * MinMaxRadiusNodeDialog.
- * 
+ * Empty NodeDialog-Skeleton
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class MinMaxRadiusNodeDialog<T extends RealType<T>> extends DefaultNodeSettingsPane {
-
-	@SuppressWarnings("unchecked")
-	public MinMaxRadiusNodeDialog() {
+public class SkeletonNodeDialog<T extends RealType<T>> extends DefaultNodeSettingsPane {
+	
+	public SkeletonNodeDialog() {
 		super();
-		// Add dialog components:
-		// - Column Selection
-		addDialogComponent(new DialogComponentColumnNameSelection(MinMaxRadiusNodeModel.createColumnSelection(),
-				"Labeling", 0, LabelingValue.class));
-		// - Dimension Selection
-		addDialogComponent(
-				new DialogComponentDimSelection(MinMaxRadiusNodeModel.createDimSelection(), "Dimensions", 2, 2));
 	}
 }

@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.example;
+package org.knime.knip.course.knipnode.example;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,7 +62,6 @@ import org.knime.core.data.DataTableSpec;
 import org.knime.core.data.DataType;
 import org.knime.core.data.MissingCell;
 import org.knime.core.data.RowKey;
-import org.knime.core.data.container.CloseableRowIterator;
 import org.knime.core.data.def.DefaultRow;
 import org.knime.core.data.def.DoubleCell;
 import org.knime.core.node.BufferedDataContainer;
@@ -109,6 +108,11 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	private SettingsModelString columnSelection = createColumnSelection();
 
+	/**
+	 * Create a settings model for the column selection component.
+	 * 
+	 * @return SettingsModelString
+	 */
 	protected static SettingsModelString createColumnSelection() {
 		return new SettingsModelString("ColumnSelection", "");
 	}
@@ -118,6 +122,11 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	private SettingsModelDimSelection dimSelection = createDimSelection();
 
+	/**
+	 * Create a settings model for the dimension selection component.
+	 * 
+	 * @return SettingsModelDimSelection
+	 */
 	protected static SettingsModelDimSelection createDimSelection() {
 		return new SettingsModelDimSelection("DimSelection", new DefaultAxisType("X"), new DefaultAxisType("Y"));
 	}
@@ -175,17 +184,11 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 		// Create a container to store the output.
 		final BufferedDataContainer container = exec.createDataContainer(createDataTableSpec());
 
-		// Get a table iterator.
-		final CloseableRowIterator it = data.iterator();
-
-		while (it.hasNext()) {
+		for (final DataRow row : data) {
 			// Check if execution got canceled.
 			exec.checkCanceled();
-			// Update progress indicator.
-			exec.setProgress(currentRow / numRows);
 
-			// Get the next row and data cell.
-			final DataRow row = it.next();
+			// Get the data cell.
 			final DataCell cell = row.getCell(data.getSpec().findColumnIndex(columnSelection.getStringValue()));
 
 			if (cell.isMissing()) {
@@ -198,7 +201,8 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 				addRows(container, (LabelingCell<L>) cell, row.getKey());
 			}
 
-			currentRow++;
+			// Update progress indicator.
+			exec.setProgress(currentRow++ / numRows);
 		}
 
 		container.close();
@@ -250,11 +254,11 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 		final SlicesII<LabelingType<L>> slices = new SlicesII<>(cell.getLabeling(), selectedDimIndices, true);
 
 		long sliceCount = 0;
-		for (RandomAccessibleInterval<LabelingType<L>> slice : slices) {
+		for (final RandomAccessibleInterval<LabelingType<L>> slice : slices) {
 			// Get all ROIs of this slice.
 			final LabelRegions<L> regions = KNIPGateway.regions().regions(slice);
 
-			for (LabelRegion<L> region : regions) {
+			for (final LabelRegion<L> region : regions) {
 				final long currentSlice = sliceCount;
 
 				if (centroidFunction == null || converter == null) {
@@ -304,7 +308,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 		double minDist = Double.MAX_VALUE;
 		double maxDist = 0;
 		double tmpDist;
-		for (RealLocalizable v : poly.getVertices()) {
+		for (final RealLocalizable v : poly.getVertices()) {
 			tmpDist = Math.sqrt(Math.pow(centroid.getDoublePosition(0) - v.getDoublePosition(0), 2)
 					+ Math.pow(centroid.getDoublePosition(1) - v.getDoublePosition(1), 2));
 			minDist = tmpDist < minDist ? tmpDist : minDist;

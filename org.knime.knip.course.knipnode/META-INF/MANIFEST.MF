@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: KNIME Featurenode extension for KNIME Workbench
-Bundle-SymbolicName: org.knime.knip.course.examplenode;singleton:=true
+Bundle-SymbolicName: org.knime.knip.course.knipnode;singleton:=true
 Bundle-Version: 0.0.1.qualifier
 Bundle-Vendor: University of Konstanz
 Eclipse-RegisterBuddy: org.knime.knip.core
@@ -15,7 +15,7 @@ Require-Bundle: org.knime.knip.base;bundle-version="1.5.0",
  imglib2;bundle-version="3.2.1",
  imglib2-roi;bundle-version="0.4.4"
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: myexamplenode.jar
+Bundle-ClassPath: examplenode.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: org.knime.knip.course.examplenoce
+Export-Package: org.knime.knip.course.knipnode.example
 
