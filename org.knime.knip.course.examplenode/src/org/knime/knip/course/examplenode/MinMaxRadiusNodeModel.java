@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.example;
+package org.knime.knip.course.examplenode;
 
 import java.io.File;
 import java.io.IOException;

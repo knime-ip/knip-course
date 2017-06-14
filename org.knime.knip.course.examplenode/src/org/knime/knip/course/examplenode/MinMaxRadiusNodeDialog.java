@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2013
+ *  Copyright (C) 2003 - 2017
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,66 +46,31 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.example;
+package org.knime.knip.course.examplenode;
 
-import org.knime.core.node.NodeDialogPane;
-import org.knime.core.node.NodeFactory;
-import org.knime.core.node.NodeView;
+import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
+import org.knime.core.node.defaultnodesettings.DialogComponentColumnNameSelection;
+import org.knime.knip.base.data.labeling.LabelingValue;
+import org.knime.knip.base.node.dialog.DialogComponentDimSelection;
 
 import net.imglib2.type.numeric.RealType;
 
 /**
- * MinMaxRadiusNodeFactory.
+ * MinMaxRadiusNodeDialog.
  * 
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class MinMaxRadiusNodeFactory<T extends RealType<T>, O extends RealType<O>>
-		extends NodeFactory<MinMaxRadiusNodeModel<T, O>> {
+public class MinMaxRadiusNodeDialog<T extends RealType<T>> extends DefaultNodeSettingsPane {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected int getNrNodeViews() {
-		// Number of views this node has.
-		return 0;
+	@SuppressWarnings("unchecked")
+	public MinMaxRadiusNodeDialog() {
+		super();
+		// Add dialog components:
+		// - Column Selection
+		addDialogComponent(new DialogComponentColumnNameSelection(MinMaxRadiusNodeModel.createColumnSelection(),
+				"Labeling", 0, LabelingValue.class));
+		// - Dimension Selection
+		addDialogComponent(
+				new DialogComponentDimSelection(MinMaxRadiusNodeModel.createDimSelection(), "Dimensions", 2, 2));
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public NodeView<MinMaxRadiusNodeModel<T, O>> createNodeView(int viewIndex, MinMaxRadiusNodeModel<T, O> nodeModel) {
-		// Create a node view for each view.
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean hasDialog() {
-		// This example node has a node dialog which is implemented in
-		// MinMaxRadiusNodeDialog.
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected NodeDialogPane createNodeDialogPane() {
-		// Create the NodeDialog.
-		return new MinMaxRadiusNodeDialog<>();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public MinMaxRadiusNodeModel<T, O> createNodeModel() {
-		// Create the NodeModel.
-		return new MinMaxRadiusNodeModel<>();
-	}
-
 }
