@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.skeleton;
+package org.knime.knip.course.example;
 
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
@@ -55,12 +55,12 @@ import org.knime.core.node.NodeView;
 import net.imglib2.type.numeric.RealType;
 
 /**
- * Empty NodeFactory-Skeleton.
+ * MinMaxRadiusNodeFactory.
  * 
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class SkeletonNodeFactory<T extends RealType<T>, O extends RealType<O>>
-		extends NodeFactory<SkeletonNodeModel<T, O>> {
+public class MinMaxRadiusNodeFactory<T extends RealType<T>, O extends RealType<O>>
+		extends NodeFactory<MinMaxRadiusNodeModel<T, O>> {
 
 	/**
 	 * {@inheritDoc}
@@ -75,7 +75,7 @@ public class SkeletonNodeFactory<T extends RealType<T>, O extends RealType<O>>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public NodeView<SkeletonNodeModel<T, O>> createNodeView(int viewIndex, SkeletonNodeModel<T, O> nodeModel) {
+	public NodeView<MinMaxRadiusNodeModel<T, O>> createNodeView(int viewIndex, MinMaxRadiusNodeModel<T, O> nodeModel) {
 		// Create a node view for each view.
 		return null;
 	}
@@ -85,6 +85,8 @@ public class SkeletonNodeFactory<T extends RealType<T>, O extends RealType<O>>
 	 */
 	@Override
 	protected boolean hasDialog() {
+		// This example node has a node dialog which is implemented in
+		// MinMaxRadiusNodeDialog.
 		return true;
 	}
 
@@ -94,16 +96,16 @@ public class SkeletonNodeFactory<T extends RealType<T>, O extends RealType<O>>
 	@Override
 	protected NodeDialogPane createNodeDialogPane() {
 		// Create the NodeDialog.
-		return new SkeletonNodeDialog<>();
+		return new MinMaxRadiusNodeDialog<>();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public SkeletonNodeModel<T, O> createNodeModel() {
+	public MinMaxRadiusNodeModel<T, O> createNodeModel() {
 		// Create the NodeModel.
-		return new SkeletonNodeModel<>();
+		return new MinMaxRadiusNodeModel<>();
 	}
 
 }

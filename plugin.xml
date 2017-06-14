@@ -15,7 +15,7 @@
       <node
             category-path="/community/knip/course/"
             deprecated="false"
-            factory-class="org.knime.knip.course.skeleton.SkeletonNodeFactory">
+            factory-class="org.knime.knip.course.example.MinMaxRadiusNodeFactory">
       </node>
    </extension>
 

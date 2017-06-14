@@ -14,8 +14,8 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="course.svg"
-   inkscape:export-filename="/home/tibuch/Documents/Learnathon/eclipse-workspace/org.knime.knip.course/src/icon/course.png"
+   sodipodi:docname="minMaxRadius.svg"
+   inkscape:export-filename="/home/tibuch/Documents/Learnathon/eclipse-workspace/org.knime.knip.course/icons/course.png"
    inkscape:export-xdpi="239.39546"
    inkscape:export-ydpi="239.39546">
   <defs
@@ -472,15 +472,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="45.254834"
-     inkscape:cx="12.79616"
-     inkscape:cy="8.4936349"
+     inkscape:zoom="36.116839"
+     inkscape:cx="3.9478155"
+     inkscape:cy="5.7466466"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="2560"
-     inkscape:window-height="1503"
-     inkscape:window-x="1600"
+     inkscape:window-width="1920"
+     inkscape:window-height="983"
+     inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1">
     <inkscape:grid
@@ -509,25 +509,33 @@
      id="layer1"
      transform="translate(0,-1036.3622)">
     <rect
-       ry="2.5365337e-06"
-       rx="1.8662621e-06"
-       y="1036.3622"
-       x="0"
-       height="16"
-       width="2"
-       id="rect3089"
-       style="fill:#8c0000;fill-opacity:1;stroke:none" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:10px;line-height:1000%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="2.7495017"
-       y="1050.7324"
-       id="text4311"
-       sodipodi:linespacing="1000%"><tspan
-         sodipodi:role="line"
-         id="tspan4313"
-         x="2.7495017"
-         y="1050.7324"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:17.5px;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold'">S</tspan></text>
+       style="opacity:1;fill:#8c0000;fill-opacity:1;stroke:none;stroke-opacity:1"
+       id="rect4321"
+       width="2.0244529"
+       height="16.143482"
+       x="-0.014366893"
+       y="1036.3378" />
+    <path
+       sodipodi:type="star"
+       style="opacity:1;fill:#a1a1a1;fill-opacity:1;stroke:none;stroke-opacity:1"
+       id="path4325"
+       sodipodi:sides="5"
+       sodipodi:cx="8.991314"
+       sodipodi:cy="1044.3531"
+       sodipodi:r1="5.9165606"
+       sodipodi:r2="4.4346609"
+       sodipodi:arg1="0.55859932"
+       sodipodi:arg2="1.712693"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 14.008547,1047.4889 -5.6443872,1.2543 -0.8047308,1.3506 -2.9371406,-4.9805 -1.5331614,-0.348 3.8291348,-4.3324 -0.142815,-1.5657 5.3036762,2.3029 1.444897,-0.6196 -0.551283,5.7557 z"
+       inkscape:transform-center-x="0.44247671"
+       inkscape:transform-center-y="0.12735292" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 6.7558515,1038.8505 9,1044.3622 l -3.4901047,2.2132"
+       id="path4327"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
