@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: KNIME Featurenode extension for KNIME Workbench
+Bundle-SymbolicName: org.knime.knip.course;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Bundle-Vendor: University of Konstanz
+Eclipse-RegisterBuddy: org.knime.knip.core
+Require-Bundle: imglib2;bundle-version="2.2.0",
+ org.knime.base;bundle-version="3.0.0",
+ org.knime.workbench.core;bundle-version="3.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+
