@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2013
+ *  Copyright (C) 2003 - 2017
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,64 +46,24 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.knipnode.skeleton;
+package org.knime.knip.course.node.ex0;
 
-import org.knime.core.node.NodeDialogPane;
-import org.knime.core.node.NodeFactory;
-import org.knime.core.node.NodeView;
+import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
 
 import net.imglib2.type.numeric.RealType;
 
 /**
- * Empty NodeFactory-Skeleton.
+ * MinMaxRadiusNodeDialog.
  * 
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class SkeletonNodeFactory<T extends RealType<T>, O extends RealType<O>>
-		extends NodeFactory<SkeletonNodeModel<T, O>> {
+public class MinMaxRadiusNodeDialog<T extends RealType<T>> extends DefaultNodeSettingsPane {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected int getNrNodeViews() {
-		// Number of views this node has.
-		return 0;
+	@SuppressWarnings("unchecked")
+	public MinMaxRadiusNodeDialog() {
+		super();
+		// Add dialog components:
+		// - Column Selection
+		// - Dimension Selection
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public NodeView<SkeletonNodeModel<T, O>> createNodeView(int viewIndex, SkeletonNodeModel<T, O> nodeModel) {
-		// Create a node view for each view.
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean hasDialog() {
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected NodeDialogPane createNodeDialogPane() {
-		// Create the NodeDialog.
-		return new SkeletonNodeDialog<>();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public SkeletonNodeModel<T, O> createNodeModel() {
-		// Create the NodeModel.
-		return new SkeletonNodeModel<>();
-	}
-
 }

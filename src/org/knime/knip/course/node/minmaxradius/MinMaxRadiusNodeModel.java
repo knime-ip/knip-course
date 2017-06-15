@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.knipnode.example;
+package org.knime.knip.course.node.minmaxradius;
 
 import java.io.File;
 import java.io.IOException;
@@ -134,7 +134,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	/**
 	 * KNIP logger instance.
 	 */
-	private static final LogService logger = KNIPGateway.log();
+	private static final LogService LOGGER = KNIPGateway.log();
 
 	/**
 	 * The centroid function from imagej-ops.
@@ -195,7 +195,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 				// If the cell is missing, insert missing cells and inform user
 				// via log.
 				container.addRowToTable(new DefaultRow(row.getKey(), new MissingCell(null), new MissingCell(null)));
-				logger.warn("Missing cell in row " + row.getKey().getString() + ". Missing cell inserted.");
+				LOGGER.warn("Missing cell in row " + row.getKey().getString() + ". Missing cell inserted.");
 			} else {
 				// Else compute the results.
 				addRows(container, (LabelingCell<L>) cell, row.getKey());
@@ -287,7 +287,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 				container.addRowToTable(
 						new DefaultRow(key.getString() + "_" + future.get().getFirst(), future.get().getSecond()));
 			} catch (InterruptedException | ExecutionException e) {
-				logger.error(e);
+				LOGGER.error(e);
 			}
 		}
 
