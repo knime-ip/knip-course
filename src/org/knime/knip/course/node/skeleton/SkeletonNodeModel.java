@@ -62,8 +62,6 @@ import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 
-import net.imglib2.type.numeric.RealType;
-
 /**
  * Empty skeleton for a KNIME {@link NodeModel}
  * 

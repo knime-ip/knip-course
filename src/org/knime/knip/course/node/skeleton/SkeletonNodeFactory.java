@@ -52,15 +52,13 @@ import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
-import net.imglib2.type.numeric.RealType;
-
 /**
  * Skeleton for NodeFactory
  * 
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
 public class SkeletonNodeFactory
-		extends NodeFactory<SkeletonNodeModel<T, O>> {
+		extends NodeFactory<SkeletonNodeModel> {
 
 	/**
 	 * {@inheritDoc}
@@ -75,7 +73,7 @@ public class SkeletonNodeFactory
 	 * {@inheritDoc}
 	 */
 	@Override
-	public NodeView<SkeletonNodeModel<T, O>> createNodeView(int viewIndex, SkeletonNodeModel<T, O> nodeModel) {
+	public NodeView<SkeletonNodeModel> createNodeView(int viewIndex, SkeletonNodeModel nodeModel) {
 		// Create a node view for each view.
 		return null;
 	}
@@ -94,16 +92,16 @@ public class SkeletonNodeFactory
 	@Override
 	protected NodeDialogPane createNodeDialogPane() {
 		// Create the NodeDialog.
-		return new SkeletonNodeDialog<>();
+		return new SkeletonNodeDialog();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public SkeletonNodeModel<T, O> createNodeModel() {
+	public SkeletonNodeModel createNodeModel() {
 		// Create the NodeModel.
-		return new SkeletonNodeModel<>();
+		return new SkeletonNodeModel();
 	}
 
 }

@@ -50,8 +50,6 @@ package org.knime.knip.course.node.skeleton;
 
 import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
 
-import net.imglib2.type.numeric.RealType;
-
 /**
  * Skeleton for empty NodeDialog.
  * 
