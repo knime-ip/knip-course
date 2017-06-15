@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.knipnode.skeleton;
+package org.knime.knip.course.node.skeleton;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,38 +65,44 @@ import org.knime.core.node.NodeSettingsWO;
 import net.imglib2.type.numeric.RealType;
 
 /**
- * Empty NodeModel-Skeleton.
+ * Empty skeleton for a KNIME {@link NodeModel}
  * 
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class SkeletonNodeModel<T extends RealType<T>, O extends RealType<O>> extends NodeModel {
+
+// TODO I'd add another example for how to use the streaming API as well. Maybe in another node model (just for future reference).
+// TODO I'd add another empty node model which uses other PortObjects as well (just for future reference)
+// TODO I'd add a very simple example node model which e.g. just copies an image was well. Makes it easier to understand.
+public class SkeletonNodeModel extends NodeModel {
 
 	// The logger instance
-	private static final NodeLogger logger = NodeLogger.getLogger(SkeletonNodeModel.class);
+	private static final NodeLogger LOGGER = NodeLogger.getLogger(SkeletonNodeModel.class);
 
 	/**
-	 * Constructor of the SkeletonNodeModel.
+	 * Constructor of the SkeletonNodeModel for the Table -> Table case.
 	 */
 	protected SkeletonNodeModel() {
 		super(1, 1);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected DataTableSpec[] configure(DataTableSpec[] inSpecs) throws InvalidSettingsException {
-		// TODO Auto-generated method stub
-		return super.configure(inSpecs);
+		// called before node execution (e.g. when a node connection is made or
+		// dialog settings are applied). No data available.
+		return new DataTableSpec[0];
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected BufferedDataTable[] execute(BufferedDataTable[] inData, ExecutionContext exec) throws Exception {
-		// TODO Auto-generated method stub
-		return super.execute(inData, exec);
+		// called on node execution. Has usually no side-effects. Side-effects
+		// can be cleared e.g. on reset() or by override onDispose
+		return new BufferedDataTable[0];
 	}
 
 	/**
@@ -134,8 +140,8 @@ public class SkeletonNodeModel<T extends RealType<T>, O extends RealType<O>> ext
 		// given file directory to create your internal data structure which is
 		// necessary to provide all node functionalities after the workflow is
 		// loaded, e.g. view content and/or hilite mapping.
-		
-		// Ex.: Models built during execution.
+
+		// Ex.: data used after node execution to restore node state.
 	}
 
 	/**
@@ -149,7 +155,7 @@ public class SkeletonNodeModel<T extends RealType<T>, O extends RealType<O>> ext
 		// given file directory which are necessary to recreate this model when
 		// the workflow is loaded, e.g. view content and/or hilite mapping.
 
-		// Ex.: Models built during execution.
+		// Ex.: data used after node execution to restore node state
 	}
 
 	/**
@@ -159,8 +165,8 @@ public class SkeletonNodeModel<T extends RealType<T>, O extends RealType<O>> ext
 	protected void reset() {
 		// Reset your NodeModel. All components should unregister themselves
 		// from any observables (at least from the hilite handler right now).
-		
-		// Ex.: Models built during execution.
+
+		// Ex.: stateful variables set during execution
 	}
 
 }

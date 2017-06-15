@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.knipnode.skeleton;
+package org.knime.knip.course.node.skeleton;
 
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
@@ -55,11 +55,11 @@ import org.knime.core.node.NodeView;
 import net.imglib2.type.numeric.RealType;
 
 /**
- * Empty NodeFactory-Skeleton.
+ * Skeleton for NodeFactory
  * 
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class SkeletonNodeFactory<T extends RealType<T>, O extends RealType<O>>
+public class SkeletonNodeFactory
 		extends NodeFactory<SkeletonNodeModel<T, O>> {
 
 	/**
