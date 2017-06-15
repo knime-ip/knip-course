@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.example;
+package org.knime.knip.course.node.minmaxradius;
 
 import java.io.File;
 import java.io.IOException;
