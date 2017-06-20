@@ -16,7 +16,7 @@ import org.scijava.plugin.Plugin;
  * @param <T>
  *            type of input image
  */
-@Plugin( menuPath = "DeveloperPlugins>Skeleton", headless = true, type = Command.class, description = "Skeleton with one input image and one double output" )
+@Plugin( menuPath = "Learnathon>Skeleton", headless = true, type = Command.class, description = "Skeleton with one input image and one double output" )
 public class Skeleton< T extends RealType< T > > implements Command
 {
 
