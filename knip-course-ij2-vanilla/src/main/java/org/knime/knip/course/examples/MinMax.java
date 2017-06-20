@@ -79,7 +79,7 @@ import org.scijava.plugin.Plugin;
  * @param <L> type of labeling
  */
 @Plugin(type = Command.class, headless = true,
-	menuPath = "DeveloperPlugins>Min Max",
+	menuPath = "Learnathon>Examples>Min Max",
 	description = "Comptes the min and max radius from centroid to contour.")
 public class MinMax<L extends IntegerType<L>> implements Command {
 

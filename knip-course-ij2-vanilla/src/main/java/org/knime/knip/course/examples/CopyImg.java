@@ -68,7 +68,7 @@ import org.scijava.plugin.Plugin;
  * @param <T> type of input
  */
 @Plugin(type = Command.class, headless = true,
-	menuPath = "DeveloperPlugins>Copy Image",
+	menuPath = "Learnathon>Examples>Copy Image",
 	description = "Copies an image pixel-wise")
 public class CopyImg<T extends RealType<T>> implements Command {
 
