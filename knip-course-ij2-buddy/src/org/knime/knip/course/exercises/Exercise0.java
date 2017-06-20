@@ -12,11 +12,11 @@ import org.scijava.plugin.Plugin;
  * 
  * @author Stefan Helfrich (University of Konstanz)
  */
-@Plugin(menuPath = "DeveloperPlugins>Coloc2 Wrapper", headless = true, type = Command.class)
-public class Exercise<T extends RealType<T> & NativeType<T>> implements Command {
+@Plugin(menuPath = "Learnathon>Exercises>Exercise0", headless = true, type = Command.class)
+public class Exercise0<T extends RealType<T> & NativeType<T>> implements Command {
 
         @SuppressWarnings("unused")
-        private static final NodeLogger LOGGER = NodeLogger.getLogger(Exercise.class);
+        private static final NodeLogger LOGGER = NodeLogger.getLogger(Exercise0.class);
 
         // TODO Define two input images and one double output
 
