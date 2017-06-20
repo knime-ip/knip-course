@@ -5,8 +5,8 @@ A KNIME Image Processing plugin that wraps an ImageJ2 *Command*.
 
 If you are using this plugin as skeleton for a new project, you have to change the `EclipseHelper` according to [Point 4](https://github.com/knime-ip/knip-imagej2#add-your-own-imagej2-plugins-to-knime).
 
-Exercise
---------
+Exercise 0
+----------
 
 1. Create a *lib/* folder within the project and download the required artifacts to build the Coloc2 wrapper from [https://maven.imagej.net](https://maven.imagej.net) into that folder. 
 2. Change the plugin's Build configuration (open plugin.xml in project) to include the *lib/* folder
