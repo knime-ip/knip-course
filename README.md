@@ -1,6 +1,8 @@
 # knip-course
 KNIME Image Processing - Course Material
 
+Make sure that you set up the [KNIME Image Processing developer environment](https://github.com/knime-ip/knip-sdk-setup) beforehand. 
+
 ## knip-course-ij2-buddy
 
 A KNIME Image Processing plugin that wraps an ImageJ2 *Command*.
@@ -37,3 +39,23 @@ An example ImageJ2 *Command* that can be installed as a KNIME Image Processing n
 5. Find the *Command* in the Node Repository - any issues?
 
 ## org.knime.knip.course
+Import the directory org.knime.knip.course via "Existing Projects into Workspace".
+
+The project has five packages:
+* copyimg: is an example implementation that shows how to access an ImgPlusCell and create a new ImgPlusCell. This example node simply copies every pixel of the input image to an output image.
+* ex0: is a copy of Skeleton where the icons and names are already changed to MinMaxRadius. Every method signature is already there and described by a comment.
+* ex1: is the implementation of MinMaxRadius but the handling of the cells is still missing. The missing methods are already added and described by a comment.
+* minmaxradius: is an example implementation that shows how to access a LabelingCell and how to process LabelRegions with the help of imagej-ops. An example image to test the node is in the project direcotry.
+* skeleton: is an empty node skeleton with no functionality and can be used as starting point to develop a new KNIME Image Processing Node.
+
+Adding a new Node-Category:
+1. Open plugin.xml
+2. Go to Extensions
+3. Add org.knime.workbench.repository.categories extension point.
+4. Right click on extension point -> New -> category
+
+Add a new Node to a Category:
+1. Open plugin.xml
+2. Go to Extensions
+3. Add org.knime.workbench.repository.nodes extension point.
+4. Right click on extension point -> New -> node
