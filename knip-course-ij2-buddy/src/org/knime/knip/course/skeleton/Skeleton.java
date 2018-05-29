@@ -1,12 +1,12 @@
 package org.knime.knip.course.skeleton;
 
-import net.imglib2.img.Img;
-import net.imglib2.type.numeric.RealType;
-
 import org.scijava.ItemIO;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
+
+import net.imglib2.img.Img;
+import net.imglib2.type.numeric.RealType;
 
 /*
  * Notes for buddy class loading:

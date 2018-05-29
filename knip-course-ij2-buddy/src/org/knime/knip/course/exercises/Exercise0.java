@@ -1,11 +1,11 @@
 package org.knime.knip.course.exercises;
 
-import net.imglib2.type.NativeType;
-import net.imglib2.type.numeric.RealType;
-
 import org.knime.core.node.NodeLogger;
 import org.scijava.command.Command;
 import org.scijava.plugin.Plugin;
+
+import net.imglib2.type.NativeType;
+import net.imglib2.type.numeric.RealType;
 
 /**
  * Computes the Pearson Correlation Coefficient for two input images.
@@ -45,7 +45,7 @@ public class Exercise0<T extends RealType<T> & NativeType<T>> implements Command
                 // Coloc_2 shows a user interface if java.awt.headless is false. To not show this window, set the system property.
                 System.getProperties().setProperty("java.awt.headless", "true");
 
-                // TODO Wrap input images
+                // TODO Wrap input images as ImagePlus
 
                 // TODO Initialize settings
 

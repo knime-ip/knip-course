@@ -2,11 +2,6 @@ package org.knime.knip.course.examples;
 
 import java.util.List;
 
-import net.imglib2.img.Img;
-import net.imglib2.img.display.imagej.ImageJFunctions;
-import net.imglib2.type.NativeType;
-import net.imglib2.type.numeric.RealType;
-
 import org.knime.core.node.NodeLogger;
 import org.scijava.ItemIO;
 import org.scijava.command.Command;
@@ -14,6 +9,10 @@ import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
 
 import ij.ImagePlus;
+import net.imglib2.img.Img;
+import net.imglib2.img.display.imagej.ImageJFunctions;
+import net.imglib2.type.NativeType;
+import net.imglib2.type.numeric.RealType;
 import sc.fiji.coloc.Coloc_2;
 import sc.fiji.coloc.algorithms.MissingPreconditionException;
 import sc.fiji.coloc.results.AnalysisResults;
@@ -64,7 +63,7 @@ public class Coloc2Wrapper<T extends RealType<T> & NativeType<T>> implements Com
                 // Coloc_2 shows a user interface if java.awt.headless is false. To not show this window, set the system property.
                 System.getProperties().setProperty("java.awt.headless", "true");
 
-                // Wrap input images
+                // Wrap input images as ImagePlus
                 ImagePlus in1 = ImageJFunctions.wrap(input1, "in1");
                 ImagePlus in2 = ImageJFunctions.wrap(input2, "in2");
 
