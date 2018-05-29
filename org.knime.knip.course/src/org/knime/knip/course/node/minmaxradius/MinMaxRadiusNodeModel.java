@@ -89,7 +89,7 @@ import net.imagej.ops.special.function.Functions;
 import net.imagej.ops.special.function.UnaryFunctionOp;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealLocalizable;
-import net.imglib2.roi.geometric.Polygon;
+import net.imglib2.roi.geom.real.Polygon2D;
 import net.imglib2.roi.labeling.LabelRegion;
 import net.imglib2.roi.labeling.LabelRegions;
 import net.imglib2.roi.labeling.LabelingType;
@@ -143,7 +143,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	/**
 	 * The LabelRegion to Polygon converter from imagej-ops.
 	 */
-	private UnaryFunctionOp<LabelRegion<L>, Polygon> converter;
+	private UnaryFunctionOp<LabelRegion<L>, Polygon2D> converter;
 
 	/**
 	 * Constructor of the MinMaxRadiusNodeModel.
@@ -220,7 +220,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	private void init(final LabelRegion<L> region) {
 		centroidFunction = Functions.unary(KNIPGateway.ops(), Centroid.class, RealLocalizable.class, region);
-		converter = Functions.unary(KNIPGateway.ops(), Contour.class, Polygon.class, region, true);
+		converter = Functions.unary(KNIPGateway.ops(), Contour.class, Polygon2D.class, region, true);
 	}
 
 	/**
@@ -297,12 +297,13 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	private DoubleCell[] computeMinMaxRadius(final LabelRegion<L> region) {
 
 		final RealLocalizable centroid = centroidFunction.calculate(region);
-		final Polygon poly = converter.calculate(region);
+		final Polygon2D poly = converter.calculate(region);
 
 		double minDist = Double.MAX_VALUE;
 		double maxDist = 0;
 		double tmpDist;
-		for (final RealLocalizable v : poly.getVertices()) {
+		for (int i = 0; i < poly.numVertices(); i++) {
+			final RealLocalizable v = poly.vertex(i);
 			tmpDist = Math.sqrt(Math.pow(centroid.getDoublePosition(0) - v.getDoublePosition(0), 2)
 					+ Math.pow(centroid.getDoublePosition(1) - v.getDoublePosition(1), 2));
 			minDist = tmpDist < minDist ? tmpDist : minDist;
