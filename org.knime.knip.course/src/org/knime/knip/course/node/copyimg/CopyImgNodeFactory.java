@@ -55,7 +55,7 @@ import org.knime.core.node.NodeView;
 import net.imglib2.type.numeric.RealType;
 
 /**
- *CopyImgsNodeFactory.
+ * CopyImgsNodeFactory.
  * 
  * @author Tim-Oliver Buchholz, University of Konstanz
  */

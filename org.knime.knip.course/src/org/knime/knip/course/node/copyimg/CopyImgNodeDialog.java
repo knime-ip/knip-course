@@ -64,7 +64,7 @@ public class CopyImgNodeDialog<T extends RealType<T>> extends DefaultNodeSetting
 	@SuppressWarnings("unchecked")
 	public CopyImgNodeDialog() {
 		super();
-		addDialogComponent(new DialogComponentColumnNameSelection(CopyImgNodeModel.createColumnSelection(),
-				"Labeling", 0, ImgPlusValue.class));
+		addDialogComponent(new DialogComponentColumnNameSelection(CopyImgNodeModel.createColumnSelection(), "Labeling",
+				0, ImgPlusValue.class));
 	}
 }
