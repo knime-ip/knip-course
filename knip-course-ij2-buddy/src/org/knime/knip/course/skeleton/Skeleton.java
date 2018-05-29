@@ -27,7 +27,7 @@ import net.imglib2.type.numeric.RealType;
  * @param <T>
  *                type of input image
  */
-@Plugin(menuPath = "DeveloperPlugins>Skeletong", headless = true, type = Command.class, description = "Skeleton with one input image and one double output")
+@Plugin(menuPath = "DeveloperPlugins>Skeleton", headless = true, type = Command.class, description = "Skeleton with one input image and one double output")
 public class Skeleton<T extends RealType<T>> implements Command {
 
         @Parameter
