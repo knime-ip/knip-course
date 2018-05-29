@@ -62,7 +62,7 @@ public class MinMaxRadiusNodeDialog<T extends RealType<T>> extends DefaultNodeSe
 	@SuppressWarnings("unchecked")
 	public MinMaxRadiusNodeDialog() {
 		super();
-		// Add dialog components:
+		// TODO Add dialog components:
 		// - Column Selection
 		// - Dimension Selection
 	}

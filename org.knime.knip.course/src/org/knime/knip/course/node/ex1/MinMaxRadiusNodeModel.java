@@ -188,8 +188,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 
 			if (cell.isMissing()) {
 
-				// If the cell is missing, insert missing cells and inform user
-				// via log.
+				// TODO If the cell is missing, insert missing cells and inform user via log.
 
 			} else {
 				// Else compute the results.
@@ -215,8 +214,10 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 *            the first real LabelRegion
 	 */
 	private void init(final LabelRegion<L> region) {
-		// Initialize centroidFunction and converter.
+
+		// TODO Initialize centroidFunction and converter.
 		// Note: OpService is available via KNIPGateway.ops().
+
 	}
 
 	/**
@@ -257,19 +258,15 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 
 				if (centroidFunction == null || converter == null) {
 
-					// Initialize ops with the first available ROI.
+					// TODO Initialize ops with the first available ROI.
 
 				}
 
 				// Process ROIs in parallel
-				futures.add(KNIPGateway.threads().run(new Callable<Pair<String, DoubleCell[]>>() {
-
-					@Override
-					public Pair<String, DoubleCell[]> call() throws Exception {
-						// Make sure that a unique identifier is created.
-						return new Pair<>("Region" + region.getLabel().toString() + "_Slice" + currentSlice,
-								computeMinMaxRadius(region));
-					}
+				futures.add(KNIPGateway.threads().run(() -> {
+					// Make sure that a unique identifier is created.
+					return new Pair<>("Region" + region.getLabel().toString() + "_Slice" + currentSlice,
+							computeMinMaxRadius(region));
 				}));
 			}
 			sliceCount++;
@@ -278,8 +275,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 		for (final Future<Pair<String, DoubleCell[]>> future : futures) {
 			try {
 				future.get();
-				// Collect the results and generate a unique row id for each new
-				// row.
+				// TODO Collect the results and generate a unique row id for each new row.
 
 			} catch (InterruptedException | ExecutionException e) {
 				LOGGER.error(e);

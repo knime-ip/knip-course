@@ -94,7 +94,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	protected static SettingsModelString createColumnSelection() {
 
-		// Create SettingsModelString for the column selection dialog.
+		// TODO Create SettingsModelString for the column selection dialog.
 
 		return null;
 	}
@@ -111,7 +111,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	protected static SettingsModelDimSelection createDimSelection() {
 
-		// Create SettingsModelDimSelection for the dimension selection dialog.
+		// TODO Create SettingsModelDimSelection for the dimension selection dialog.
 
 		return null;
 	}
@@ -145,9 +145,9 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 		final DataTableSpec spec = inSpecs[0];
 
-		// 1. Check if selected column is part of the input DataTableSpec.
+		// TODO 1. Check if selected column is part of the input DataTableSpec.
 		// Note: Use NodeUtils
-		// 2. Create output DataTableSpec.
+		// TODO 2. Create output DataTableSpec.
 
 		return new DataTableSpec[] {};
 	}
@@ -160,12 +160,13 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
 
-		// 1. Create a new BufferedDataContainer with the ExecutionContext exec.
-		// 2. Iterate over each row and process it.
+		// TODO 1. Create a new BufferedDataContainer with the ExecutionContext exec.
+
+		// TODO 2. Iterate over each row and process it.
 		// - Check if the cell is missing!
-		// - Close the BufferedDataContainer before returing the
-		// BufferedDataTable.
-		// 3. Add exec.checkCanceled() and exec.setProgress().
+		// - Close the BufferedDataContainer before returing the BufferedDataTable.
+
+		// TODO 3. Add exec.checkCanceled() and exec.setProgress().
 
 		return new BufferedDataTable[] {};
 	}
@@ -181,7 +182,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	private void init(final LabelRegion<L> region) {
 
-		// Initialize centroidFunction and converter.
+		// TODO Initialize centroidFunction and converter.
 		// Note: OpService is available via KNIPGateway.ops().
 
 	}
@@ -205,14 +206,15 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	private void addRows(final BufferedDataContainer container, final LabelingCell<L> cell, final RowKey key)
 			throws InvalidSettingsException {
 
-		// 1. Slice the labeling based on the selected dimensions of
-		// dimSelection.
-		// 2. Initialize centroidFunction and converter.
-		// 3. Submit a Callable to KNIPGateway.threads() for each slice and
-		// comput min max radius.
-		// 4. Collect the results and add them to the container.
-		// Note: Make sure that each row has a unique rowid: oldRowID + label +
-		// slice
+		// TODO 1. Slice the labeling based on the selected dimensions of dimSelection.
+
+		// TODO 2. Initialize centroidFunction and converter.
+
+		// TODO 3. Submit a Callable to KNIPGateway.threads() for each slice and compute
+		// min max radius.
+
+		// TODO 4. Collect the results and add them to the container.
+		// Note: Make sure that each row has a unique rowid: oldRowID + label + slice
 
 	}
 
@@ -225,7 +227,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	private DoubleCell[] computeMinMaxRadius(final LabelRegion<L> region) {
 
-		// Compute min and max radius of the given region.
+		// TODO Compute min and max radius of the given region.
 		// Note:
 		// - Use centroidFunction to get the centroid.
 		// - Use converter to get the polygon describing the region.
@@ -241,7 +243,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	private DataTableSpec createDataTableSpec() {
 
-		// Create an output DataTableSpec with two columns ("Max Radius", "Min
+		// TODO Create an output DataTableSpec with two columns ("Max Radius", "Min
 		// Radius") of type DataCell.TYPE.
 
 		return new DataTableSpec();
@@ -253,7 +255,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	@Override
 	protected void saveSettingsTo(NodeSettingsWO settings) {
 
-		// Save columnSelection and dimSelection to settings.
+		// TODO Save columnSelection and dimSelection to settings.
 
 	}
 
@@ -263,7 +265,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	@Override
 	protected void validateSettings(NodeSettingsRO settings) throws InvalidSettingsException {
 
-		// Validate columnSelection and dimSelection from settings.
+		// TODO Validate columnSelection and dimSelection from settings.
 
 	}
 
@@ -273,7 +275,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	@Override
 	protected void loadValidatedSettingsFrom(NodeSettingsRO settings) throws InvalidSettingsException {
 
-		// Load validated columnSelection and dimSelection from settings.
+		// TODO Load validated columnSelection and dimSelection from settings.
 
 	}
 

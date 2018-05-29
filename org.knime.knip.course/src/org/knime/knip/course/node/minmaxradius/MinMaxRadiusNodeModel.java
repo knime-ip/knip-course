@@ -191,8 +191,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 			final DataCell cell = row.getCell(data.getSpec().findColumnIndex(columnSelection.getStringValue()));
 
 			if (cell.isMissing()) {
-				// If the cell is missing, insert missing cells and inform user
-				// via log.
+				// If the cell is missing, insert missing cells and inform user via log.
 				container.addRowToTable(new DefaultRow(row.getKey(), new MissingCell(null), new MissingCell(null)));
 				LOGGER.warn("Missing cell in row " + row.getKey().getString() + ". Missing cell inserted.");
 			} else {
@@ -276,8 +275,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 
 		for (final Future<Pair<String, DoubleCell[]>> future : futures) {
 			try {
-				// Collect the results and generate a unique row id for each new
-				// row.
+				// Collect the results and generate a unique row id for each new row.
 				container.addRowToTable(
 						new DefaultRow(key.getString() + "_" + future.get().getFirst(), future.get().getSecond()));
 			} catch (InterruptedException | ExecutionException e) {
