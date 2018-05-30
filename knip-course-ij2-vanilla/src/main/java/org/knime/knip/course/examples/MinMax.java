@@ -56,7 +56,7 @@ import net.imagej.ops.special.function.Functions;
 import net.imagej.ops.special.function.UnaryFunctionOp;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealLocalizable;
-import net.imglib2.roi.geometric.Polygon;
+import net.imglib2.roi.geom.real.Polygon2D;
 import net.imglib2.roi.labeling.ImgLabeling;
 import net.imglib2.roi.labeling.LabelRegion;
 import net.imglib2.roi.labeling.LabelRegions;
@@ -99,9 +99,9 @@ public class MinMax<L extends IntegerType<L>> implements Command {
 	private UnaryFunctionOp<LabelRegion<L>, RealLocalizable> centroidFunction;
 
 	/**
-	 * A {@link LabelRegion} to {@link Polygon} converting Op.
+	 * A {@link LabelRegion} to {@link Polygon2D} converting Op.
 	 */
-	private UnaryFunctionOp<LabelRegion<L>, Polygon> converter;
+	private UnaryFunctionOp<LabelRegion<L>, Polygon2D> converter;
 
 	/**
 	 * The ops are initialized with the first actual data.
@@ -111,7 +111,7 @@ public class MinMax<L extends IntegerType<L>> implements Command {
 	private void init(final LabelRegion<L> region) {
 		centroidFunction = Functions.unary(opService, Centroid.class,
 			RealLocalizable.class, region);
-		converter = Functions.unary(opService, Contour.class, Polygon.class, region,
+		converter = Functions.unary(opService, Contour.class, Polygon2D.class, region,
 			true);
 	}
 
@@ -167,12 +167,13 @@ public class MinMax<L extends IntegerType<L>> implements Command {
 	 */
 	private double[] computeMinMaxRadius(final LabelRegion<L> region) {
 		final RealLocalizable centroid = centroidFunction.calculate(region);
-		final Polygon poly = converter.calculate(region);
+		final Polygon2D poly = converter.calculate(region);
 
 		double minDist = Double.MAX_VALUE;
 		double maxDist = 0;
 		double tmpDist;
-		for (final RealLocalizable v : poly.getVertices()) {
+		for (int i = 0; i < poly.numVertices(); i++) {
+			final RealLocalizable v = poly.vertex(i);
 			tmpDist = Math.sqrt(Math.pow(centroid.getDoublePosition(0) - v
 				.getDoublePosition(0), 2) + Math.pow(centroid.getDoublePosition(1) - v
 					.getDoublePosition(1), 2));
