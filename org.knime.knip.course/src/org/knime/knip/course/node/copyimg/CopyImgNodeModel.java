@@ -84,7 +84,7 @@ import net.imglib2.type.numeric.RealType;
  * 
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class CopyImgNodeModel<T extends RealType<T>, O extends RealType<O>> extends NodeModel {
+public class CopyImgNodeModel<T extends RealType<T>> extends NodeModel {
 
 	/**
 	 * Settings model of the column selection.

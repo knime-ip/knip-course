@@ -59,8 +59,8 @@ import net.imglib2.type.numeric.RealType;
  * 
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class CopyImgNodeFactory<T extends RealType<T>, O extends RealType<O>>
-		extends NodeFactory<CopyImgNodeModel<T, O>> {
+public class CopyImgNodeFactory<T extends RealType<T>>
+		extends NodeFactory<CopyImgNodeModel<T>> {
 
 	/**
 	 * {@inheritDoc}
@@ -75,7 +75,7 @@ public class CopyImgNodeFactory<T extends RealType<T>, O extends RealType<O>>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public NodeView<CopyImgNodeModel<T, O>> createNodeView(int viewIndex, CopyImgNodeModel<T, O> nodeModel) {
+	public NodeView<CopyImgNodeModel<T>> createNodeView(int viewIndex, CopyImgNodeModel<T> nodeModel) {
 		// Create a node view for each view.
 		return null;
 	}
@@ -103,7 +103,7 @@ public class CopyImgNodeFactory<T extends RealType<T>, O extends RealType<O>>
 	 * {@inheritDoc}
 	 */
 	@Override
-	public CopyImgNodeModel<T, O> createNodeModel() {
+	public CopyImgNodeModel<T> createNodeModel() {
 		// Create the NodeModel.
 		return new CopyImgNodeModel<>();
 	}
