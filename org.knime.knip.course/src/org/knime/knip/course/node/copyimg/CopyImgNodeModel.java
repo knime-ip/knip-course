@@ -80,11 +80,11 @@ import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
 
 /**
- * MinMaxRadiusNodeModel.
+ * CopyImgNodeModel.
  * 
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class CopyImgNodeModel<T extends RealType<T>, O extends RealType<O>> extends NodeModel {
+public class CopyImgNodeModel<T extends RealType<T>> extends NodeModel {
 
 	/**
 	 * Settings model of the column selection.
@@ -106,7 +106,7 @@ public class CopyImgNodeModel<T extends RealType<T>, O extends RealType<O>> exte
 	private static final LogService LOGGER = KNIPGateway.log();
 
 	/**
-	 * Constructor of the MinMaxRadiusNodeModel.
+	 * Constructor of the CopyImgNodeModel.
 	 */
 	protected CopyImgNodeModel() {
 		super(1, 1);
@@ -148,7 +148,8 @@ public class CopyImgNodeModel<T extends RealType<T>, O extends RealType<O>> exte
 			exec.checkCanceled();
 
 			// Get the data cell.
-			final ImgPlusCell<T> cell = (ImgPlusCell<T>)row.getCell(data.getSpec().findColumnIndex(columnSelection.getStringValue()));
+			final ImgPlusCell<T> cell = (ImgPlusCell<T>) row
+					.getCell(data.getSpec().findColumnIndex(columnSelection.getStringValue()));
 			final ImgPlusCellFactory imgPlusCellFactory = new ImgPlusCellFactory(exec);
 
 			if (cell.isMissing()) {
@@ -158,25 +159,27 @@ public class CopyImgNodeModel<T extends RealType<T>, O extends RealType<O>> exte
 				LOGGER.warn("Missing cell in row " + row.getKey().getString() + ". Missing cell inserted.");
 			} else {
 				// Else copy
-				
+
 				// Simple copy
-				// container.addRowToTable(new DefaultRow(row.getKey(), imgPlusCellFactory.createCell(cell.getImgPlusCopy())));
-				
+				// container.addRowToTable(new DefaultRow(row.getKey(),
+				// imgPlusCellFactory.createCell(cell.getImgPlusCopy())));
+
 				// Copy with iterator and randomAccess
 				final ImgPlus<T> original = cell.getImgPlus();
-				final Img<T> copy = original.factory().create(original, original.firstElement());
-				
+				final Img<T> copy = original.factory().create(original);
+
 				final Cursor<T> originalC = original.localizingCursor();
 				final RandomAccess<T> copyRA = copy.randomAccess();
-				
+
 				while (originalC.hasNext()) {
 					originalC.fwd();
 					copyRA.setPosition(originalC);
-					
+
 					copyRA.get().set(originalC.get());
 				}
-				
-				container.addRowToTable(new DefaultRow(row.getKey(), imgPlusCellFactory.createCell(new ImgPlus<>(copy))));
+
+				container.addRowToTable(
+						new DefaultRow(row.getKey(), imgPlusCellFactory.createCell(new ImgPlus<>(copy))));
 			}
 
 			// Update progress indicator.
@@ -189,13 +192,12 @@ public class CopyImgNodeModel<T extends RealType<T>, O extends RealType<O>> exte
 	}
 
 	/**
-	 * Create the table spec of the output table. I
+	 * Create the table spec of the output table.
 	 * 
 	 * @return table spec with column "Copy"
 	 */
 	private DataTableSpec createDataTableSpec() {
-		return new DataTableSpec(new String[] { "Copy"},
-				new DataType[] { ImgPlusCell.TYPE });
+		return new DataTableSpec(new String[] { "Copy" }, new DataType[] { ImgPlusCell.TYPE });
 	}
 
 	/**

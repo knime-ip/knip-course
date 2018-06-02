@@ -52,7 +52,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -90,7 +89,7 @@ import net.imagej.ops.special.function.Functions;
 import net.imagej.ops.special.function.UnaryFunctionOp;
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealLocalizable;
-import net.imglib2.roi.geometric.Polygon;
+import net.imglib2.roi.geom.real.Polygon2D;
 import net.imglib2.roi.labeling.LabelRegion;
 import net.imglib2.roi.labeling.LabelRegions;
 import net.imglib2.roi.labeling.LabelingType;
@@ -144,7 +143,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	/**
 	 * The LabelRegion to Polygon converter from imagej-ops.
 	 */
-	private UnaryFunctionOp<LabelRegion<L>, Polygon> converter;
+	private UnaryFunctionOp<LabelRegion<L>, Polygon2D> converter;
 
 	/**
 	 * Constructor of the MinMaxRadiusNodeModel.
@@ -192,8 +191,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 			final DataCell cell = row.getCell(data.getSpec().findColumnIndex(columnSelection.getStringValue()));
 
 			if (cell.isMissing()) {
-				// If the cell is missing, insert missing cells and inform user
-				// via log.
+				// If the cell is missing, insert missing cells and inform user via log.
 				container.addRowToTable(new DefaultRow(row.getKey(), new MissingCell(null), new MissingCell(null)));
 				LOGGER.warn("Missing cell in row " + row.getKey().getString() + ". Missing cell inserted.");
 			} else {
@@ -212,8 +210,8 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 
 	/**
 	 * Initiate ops. This is not possible during
-	 * {@link MinMaxRadiusNodeModel#configure(DataTableSpec[])} since the data
-	 * is not available at the time. The ops are initiated with the first actual
+	 * {@link MinMaxRadiusNodeModel#configure(DataTableSpec[])} since the data is
+	 * not available at the time. The ops are initiated with the first actual
 	 * data-instance.
 	 * 
 	 * @param region
@@ -221,16 +219,15 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	private void init(final LabelRegion<L> region) {
 		centroidFunction = Functions.unary(KNIPGateway.ops(), Centroid.class, RealLocalizable.class, region);
-		converter = Functions.unary(KNIPGateway.ops(), Contour.class, Polygon.class, region, true);
+		converter = Functions.unary(KNIPGateway.ops(), Contour.class, Polygon2D.class, region, true);
 	}
 
 	/**
-	 * Add for each LabelRegion in a Labeling a new row with the min and max
-	 * radius.
+	 * Add for each LabelRegion in a Labeling a new row with the min and max radius.
 	 * 
 	 * In this method, the ROIs get sliced to 2D slices which then will be
-	 * processed. Since a Label can result in many slices of any size, the
-	 * slices are processed concurrently.
+	 * processed. Since a Label can result in many slices of any size, the slices
+	 * are processed concurrently.
 	 * 
 	 * @param container
 	 *            to store the result
@@ -267,14 +264,10 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 				}
 
 				// Process ROIs in parallel
-				futures.add(KNIPGateway.threads().run(new Callable<Pair<String, DoubleCell[]>>() {
-
-					@Override
-					public Pair<String, DoubleCell[]> call() throws Exception {
-						// Make sure that a unique identifier is created.
-						return new Pair<>("Region" + region.getLabel().toString() + "_Slice" + currentSlice,
-								computeMinMaxRadius(region));
-					}
+				futures.add(KNIPGateway.threads().run(() -> {
+					// Make sure that a unique identifier is created.
+					return new Pair<>("Region" + region.getLabel().toString() + "_Slice" + currentSlice,
+							computeMinMaxRadius(region));
 				}));
 			}
 			sliceCount++;
@@ -282,8 +275,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 
 		for (final Future<Pair<String, DoubleCell[]>> future : futures) {
 			try {
-				// Collect the results and generate a unique row id for each new
-				// row.
+				// Collect the results and generate a unique row id for each new row.
 				container.addRowToTable(
 						new DefaultRow(key.getString() + "_" + future.get().getFirst(), future.get().getSecond()));
 			} catch (InterruptedException | ExecutionException e) {
@@ -303,12 +295,13 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	private DoubleCell[] computeMinMaxRadius(final LabelRegion<L> region) {
 
 		final RealLocalizable centroid = centroidFunction.calculate(region);
-		final Polygon poly = converter.calculate(region);
+		final Polygon2D poly = converter.calculate(region);
 
 		double minDist = Double.MAX_VALUE;
 		double maxDist = 0;
 		double tmpDist;
-		for (final RealLocalizable v : poly.getVertices()) {
+		for (int i = 0; i < poly.numVertices(); i++) {
+			final RealLocalizable v = poly.vertex(i);
 			tmpDist = Math.sqrt(Math.pow(centroid.getDoublePosition(0) - v.getDoublePosition(0), 2)
 					+ Math.pow(centroid.getDoublePosition(1) - v.getDoublePosition(1), 2));
 			minDist = tmpDist < minDist ? tmpDist : minDist;
@@ -319,8 +312,8 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	}
 
 	/**
-	 * Create the table spec of the output table. In this case a new table with
-	 * just two columns is generated.
+	 * Create the table spec of the output table. In this case a new table with just
+	 * two columns is generated.
 	 * 
 	 * @return table spec with columns "Min Radius" and "Max Radius"
 	 */

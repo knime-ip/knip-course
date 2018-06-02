@@ -50,19 +50,9 @@ package org.knime.knip.course.node.ex0;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
-import org.knime.core.data.DataCell;
-import org.knime.core.data.DataRow;
 import org.knime.core.data.DataTableSpec;
-import org.knime.core.data.DataType;
-import org.knime.core.data.MissingCell;
 import org.knime.core.data.RowKey;
-import org.knime.core.data.def.DefaultRow;
 import org.knime.core.data.def.DoubleCell;
 import org.knime.core.node.BufferedDataContainer;
 import org.knime.core.node.BufferedDataTable;
@@ -74,26 +64,15 @@ import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 import org.knime.core.node.defaultnodesettings.SettingsModelString;
-import org.knime.core.util.Pair;
 import org.knime.knip.base.data.labeling.LabelingCell;
-import org.knime.knip.base.data.labeling.LabelingValue;
-import org.knime.knip.base.node.NodeUtils;
 import org.knime.knip.base.node.nodesettings.SettingsModelDimSelection;
 import org.knime.knip.core.KNIPGateway;
 import org.scijava.log.LogService;
 
-import net.imagej.axis.DefaultAxisType;
-import net.imagej.ops.Ops.Geometric.Centroid;
-import net.imagej.ops.Ops.Geometric.Contour;
-import net.imagej.ops.slice.SlicesII;
-import net.imagej.ops.special.function.Functions;
 import net.imagej.ops.special.function.UnaryFunctionOp;
-import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealLocalizable;
-import net.imglib2.roi.geometric.Polygon;
+import net.imglib2.roi.geom.real.Polygon2D;
 import net.imglib2.roi.labeling.LabelRegion;
-import net.imglib2.roi.labeling.LabelRegions;
-import net.imglib2.roi.labeling.LabelingType;
 import net.imglib2.type.numeric.RealType;
 
 /**
@@ -114,9 +93,9 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 * @return SettingsModelString
 	 */
 	protected static SettingsModelString createColumnSelection() {
-		
-		// Create SettingsModelString for the column selection dialog.
-		
+
+		// TODO Create SettingsModelString for the column selection dialog.
+
 		return null;
 	}
 
@@ -131,9 +110,9 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 * @return SettingsModelDimSelection
 	 */
 	protected static SettingsModelDimSelection createDimSelection() {
-		
-		// Create SettingsModelDimSelection for the dimension selection dialog.
-		
+
+		// TODO Create SettingsModelDimSelection for the dimension selection dialog.
+
 		return null;
 	}
 
@@ -150,7 +129,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	/**
 	 * The LabelRegion to Polygon converter from imagej-ops.
 	 */
-	private UnaryFunctionOp<LabelRegion<L>, Polygon> converter;
+	private UnaryFunctionOp<LabelRegion<L>, Polygon2D> converter;
 
 	/**
 	 * Constructor of the MinMaxRadiusNodeModel.
@@ -166,9 +145,9 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 		final DataTableSpec spec = inSpecs[0];
 
-		// 1. Check if selected column is part of the input DataTableSpec.
+		// TODO 1. Check if selected column is part of the input DataTableSpec.
 		// Note: Use NodeUtils
-		// 2. Create output DataTableSpec.
+		// TODO 2. Create output DataTableSpec.
 
 		return new DataTableSpec[] {};
 	}
@@ -181,39 +160,39 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
 
-		// 1. Create a new BufferedDataContainer with the ExecutionContext exec.
-		// 2. Iterate over each row and process it.
-		// - Check if the cell is missing!
-		// - Close the BufferedDataContainer before returing the
-		// BufferedDataTable.
-		// 3. Add exec.checkCanceled() and exec.setProgress().
+		// TODO 1. Create a new BufferedDataContainer with the ExecutionContext exec.
 
-return new BufferedDataTable[] {};
+		// TODO 2. Iterate over each row and process it.
+		// - Check if the cell is missing!
+		// - Close the BufferedDataContainer before returing the BufferedDataTable.
+
+		// TODO 3. Add exec.checkCanceled() and exec.setProgress().
+
+		return new BufferedDataTable[] {};
 	}
 
 	/**
 	 * Initiate ops. This is not possible during
-	 * {@link MinMaxRadiusNodeModel#configure(DataTableSpec[])} since the data
-	 * is not available at the time. The ops are initiated with the first actual
+	 * {@link MinMaxRadiusNodeModel#configure(DataTableSpec[])} since the data is
+	 * not available at the time. The ops are initiated with the first actual
 	 * data-instance.
 	 * 
 	 * @param region
 	 *            the first real LabelRegion
 	 */
 	private void init(final LabelRegion<L> region) {
-		
-		// Initialize centroidFunction and converter.
+
+		// TODO Initialize centroidFunction and converter.
 		// Note: OpService is available via KNIPGateway.ops().
-		
+
 	}
 
 	/**
-	 * Add for each LabelRegion in a Labeling a new row with the min and max
-	 * radius.
+	 * Add for each LabelRegion in a Labeling a new row with the min and max radius.
 	 * 
 	 * In this method, the ROIs get sliced to 2D slices which then will be
-	 * processed. Since a Label can result in many slices of any size, the
-	 * slices are processed concurrently.
+	 * processed. Since a Label can result in many slices of any size, the slices
+	 * are processed concurrently.
 	 * 
 	 * @param container
 	 *            to store the result
@@ -226,16 +205,17 @@ return new BufferedDataTable[] {};
 	 */
 	private void addRows(final BufferedDataContainer container, final LabelingCell<L> cell, final RowKey key)
 			throws InvalidSettingsException {
-		
-		// 1. Slice the labeling based on the selected dimensions of
-		// dimSelection.
-		// 2. Initialize centroidFunction and converter.
-		// 3. Submit a Callable to KNIPGateway.threads() for each slice and
-		// comput min max radius.
-		// 4. Collect the results and add them to the container.
-		// Note: Make sure that each row has a unique rowid: oldRowID + label +
-		// slice
-		
+
+		// TODO 1. Slice the labeling based on the selected dimensions of dimSelection.
+
+		// TODO 2. Initialize centroidFunction and converter.
+
+		// TODO 3. Submit a Callable to KNIPGateway.threads() for each slice and compute
+		// min max radius.
+
+		// TODO 4. Collect the results and add them to the container.
+		// Note: Make sure that each row has a unique rowid: oldRowID + label + slice
+
 	}
 
 	/**
@@ -247,7 +227,7 @@ return new BufferedDataTable[] {};
 	 */
 	private DoubleCell[] computeMinMaxRadius(final LabelRegion<L> region) {
 
-		// Compute min and max radius of the given region.
+		// TODO Compute min and max radius of the given region.
 		// Note:
 		// - Use centroidFunction to get the centroid.
 		// - Use converter to get the polygon describing the region.
@@ -256,14 +236,14 @@ return new BufferedDataTable[] {};
 	}
 
 	/**
-	 * Create the table spec of the output table. In this case a new table with
-	 * just two columns is generated.
+	 * Create the table spec of the output table. In this case a new table with just
+	 * two columns is generated.
 	 * 
 	 * @return table spec with columns "Min Radius" and "Max Radius"
 	 */
 	private DataTableSpec createDataTableSpec() {
 
-		// Create an output DataTableSpec with two columns ("Max Radius", "Min
+		// TODO Create an output DataTableSpec with two columns ("Max Radius", "Min
 		// Radius") of type DataCell.TYPE.
 
 		return new DataTableSpec();
@@ -274,8 +254,8 @@ return new BufferedDataTable[] {};
 	 */
 	@Override
 	protected void saveSettingsTo(NodeSettingsWO settings) {
-		
-		// Save columnSelection and dimSelection to settings.
+
+		// TODO Save columnSelection and dimSelection to settings.
 
 	}
 
@@ -284,8 +264,8 @@ return new BufferedDataTable[] {};
 	 */
 	@Override
 	protected void validateSettings(NodeSettingsRO settings) throws InvalidSettingsException {
-		
-		// Validate columnSelection and dimSelection from settings.
+
+		// TODO Validate columnSelection and dimSelection from settings.
 
 	}
 
@@ -294,8 +274,8 @@ return new BufferedDataTable[] {};
 	 */
 	@Override
 	protected void loadValidatedSettingsFrom(NodeSettingsRO settings) throws InvalidSettingsException {
-		
-		// Load validated columnSelection and dimSelection from settings.
+
+		// TODO Load validated columnSelection and dimSelection from settings.
 
 	}
 
