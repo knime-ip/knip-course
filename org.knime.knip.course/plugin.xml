@@ -22,6 +22,11 @@
             deprecated="false"
             factory-class="org.knime.knip.course.node.copyimg.CopyImgNodeFactory">
       </node>
+      <node
+            category-path="/community/knip/course/"
+            deprecated="false"
+            factory-class="org.knime.knip.course.node.addconstant.AddConstantNodeFactory">
+      </node>
    </extension>
 
    

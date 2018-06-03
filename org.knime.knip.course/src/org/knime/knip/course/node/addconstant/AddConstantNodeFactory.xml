@@ -1,0 +1,22 @@
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="addconstant.png" type="Manipulator">
+	<name>Add Constant</name>
+	<shortDescription>
+		This node adds a constant value to an image.
+	</shortDescription>
+
+	<fullDescription>
+		<intro>
+			This node adds a constant value to an image.
+		</intro>
+		<tab name="Options">
+			<option name="Value">The value which should be added to the image.</option>
+		</tab>
+
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Input Images">Input Images</inPort>
+		<outPort index="0" name="Output Images">Output Images</outPort>
+	</ports>
+</knimeNode>
