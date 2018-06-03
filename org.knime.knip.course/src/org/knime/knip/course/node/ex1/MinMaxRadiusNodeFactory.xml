@@ -2,25 +2,21 @@
 <knimeNode icon="minMaxRadius.png" type="Manipulator">
 	<name>Min/Max Radius</name>
 	<shortDescription>
-		This node computes for each given ROI in a Labeling
-		the minimum and maximum radius from the centroid to the perimeter.
+		<!-- Add a short description of the node. -->
 	</shortDescription>
 
 	<fullDescription>
 		<intro>
-			Given a ROI and two chosen dimensions, this node slices the ROI
-			in two dimensional slices and computes for each slice the minimum and
-			maximum radius from the centroid to the perimeter of this slice.
+			<!-- Add a detailed description of the node. -->
 		</intro>
 		<tab name="Options">
-			<option name="Labeling">The labeling column.</option>
-			<option name="Dimension Selection">The two dimensions in which the computations are performed.</option>
+			<option name=""><!-- Add description of each dialog component. --></option>
 		</tab>
 
 	</fullDescription>
 
 	<ports>
-		<inPort index="0" name="Input Images">Input Images</inPort>
-		<outPort index="0" name="Min/Max Radius">Minimum and Maximum for each slice of each ROI.</outPort>
-	</ports>
+		<inPort index="0" name="Input Images"><!-- Describe the input table. --></inPort>
+		<outPort index="0" name="Min/Max Radius"><!-- Describe the output table. --></outPort>
+</ports>
 </knimeNode>

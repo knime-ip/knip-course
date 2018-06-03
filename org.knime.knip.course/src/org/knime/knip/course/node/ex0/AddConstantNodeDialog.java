@@ -46,24 +46,22 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.ex1;
+package org.knime.knip.course.node.ex0;
 
 import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
 
-import net.imglib2.type.numeric.RealType;
-
 /**
- * MinMaxRadiusNodeDialog.
- * 
- * @author Tim-Oliver Buchholz, University of Konstanz
+ * Node settings for the constant value adder.
+ *
+ * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  */
-public class MinMaxRadiusNodeDialog<T extends RealType<T>> extends DefaultNodeSettingsPane {
+public class AddConstantNodeDialog extends DefaultNodeSettingsPane {
 
-	@SuppressWarnings("unchecked")
-	public MinMaxRadiusNodeDialog() {
+	public AddConstantNodeDialog() {
 		super();
+
 		// TODO Add dialog components:
 		// - Column Selection
-		// - Dimension Selection
+		// - Double number
 	}
 }

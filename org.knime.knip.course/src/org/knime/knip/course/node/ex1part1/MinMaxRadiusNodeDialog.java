@@ -46,9 +46,12 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.ex0;
+package org.knime.knip.course.node.ex1part1;
 
 import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
+import org.knime.core.node.defaultnodesettings.DialogComponentColumnNameSelection;
+import org.knime.knip.base.data.labeling.LabelingValue;
+import org.knime.knip.base.node.dialog.DialogComponentDimSelection;
 
 import net.imglib2.type.numeric.RealType;
 
@@ -62,8 +65,12 @@ public class MinMaxRadiusNodeDialog<T extends RealType<T>> extends DefaultNodeSe
 	@SuppressWarnings("unchecked")
 	public MinMaxRadiusNodeDialog() {
 		super();
-		// TODO Add dialog components:
+		// Add dialog components:
 		// - Column Selection
+		addDialogComponent(new DialogComponentColumnNameSelection(MinMaxRadiusNodeModel.createColumnSelection(),
+				"Labeling", 0, LabelingValue.class));
 		// - Dimension Selection
+		addDialogComponent(
+				new DialogComponentDimSelection(MinMaxRadiusNodeModel.createDimSelection(), "Dimensions", 2, 2));
 	}
 }

@@ -50,16 +50,8 @@ package org.knime.knip.course.node.ex1;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
-import org.knime.core.data.DataCell;
-import org.knime.core.data.DataRow;
 import org.knime.core.data.DataTableSpec;
-import org.knime.core.data.DataType;
 import org.knime.core.data.RowKey;
 import org.knime.core.data.def.DoubleCell;
 import org.knime.core.node.BufferedDataContainer;
@@ -72,23 +64,15 @@ import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 import org.knime.core.node.defaultnodesettings.SettingsModelString;
-import org.knime.core.util.Pair;
 import org.knime.knip.base.data.labeling.LabelingCell;
-import org.knime.knip.base.data.labeling.LabelingValue;
-import org.knime.knip.base.node.NodeUtils;
 import org.knime.knip.base.node.nodesettings.SettingsModelDimSelection;
 import org.knime.knip.core.KNIPGateway;
 import org.scijava.log.LogService;
 
-import net.imagej.axis.DefaultAxisType;
-import net.imagej.ops.slice.SlicesII;
 import net.imagej.ops.special.function.UnaryFunctionOp;
-import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.RealLocalizable;
 import net.imglib2.roi.geom.real.Polygon2D;
 import net.imglib2.roi.labeling.LabelRegion;
-import net.imglib2.roi.labeling.LabelRegions;
-import net.imglib2.roi.labeling.LabelingType;
 import net.imglib2.type.numeric.RealType;
 
 /**
@@ -109,7 +93,10 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 * @return SettingsModelString
 	 */
 	protected static SettingsModelString createColumnSelection() {
-		return new SettingsModelString("ColumnSelection", "");
+
+		// TODO Create SettingsModelString for the column selection dialog.
+
+		return null;
 	}
 
 	/**
@@ -123,7 +110,10 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 * @return SettingsModelDimSelection
 	 */
 	protected static SettingsModelDimSelection createDimSelection() {
-		return new SettingsModelDimSelection("DimSelection", new DefaultAxisType("X"), new DefaultAxisType("Y"));
+
+		// TODO Create SettingsModelDimSelection for the dimension selection dialog.
+
+		return null;
 	}
 
 	/**
@@ -155,11 +145,11 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 		final DataTableSpec spec = inSpecs[0];
 
-		// Check table spec if column is available.
-		NodeUtils.autoColumnSelection(spec, columnSelection, LabelingValue.class, this.getClass());
+		// TODO 1. Check if selected column is part of the input DataTableSpec.
+		// Note: Use NodeUtils
+		// TODO 2. Create output DataTableSpec.
 
-		// If everything looks fine, create an output table spec.
-		return new DataTableSpec[] { createDataTableSpec() };
+		return new DataTableSpec[] {};
 	}
 
 	/**
@@ -169,39 +159,16 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	@Override
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
-		// The datatable passed by the first dataport.
-		final BufferedDataTable data = inData[0];
 
-		// Variables to compute progress.
-		final double numRows = data.size();
-		long currentRow = 0;
+		// TODO 1. Create a new BufferedDataContainer with the ExecutionContext exec.
 
-		// Create a container to store the output.
-		final BufferedDataContainer container = exec.createDataContainer(createDataTableSpec());
+		// TODO 2. Iterate over each row and process it.
+		// - Check if the cell is missing!
+		// - Close the BufferedDataContainer before returing the BufferedDataTable.
 
-		for (final DataRow row : data) {
-			// Check if execution got canceled.
-			exec.checkCanceled();
+		// TODO 3. Add exec.checkCanceled() and exec.setProgress().
 
-			// Get the data cell.
-			final DataCell cell = row.getCell(data.getSpec().findColumnIndex(columnSelection.getStringValue()));
-
-			if (cell.isMissing()) {
-
-				// TODO If the cell is missing, insert missing cells and inform user via log.
-
-			} else {
-				// Else compute the results.
-				addRows(container, (LabelingCell<L>) cell, row.getKey());
-			}
-
-			// Update progress indicator.
-			exec.setProgress(currentRow++ / numRows);
-		}
-
-		container.close();
-
-		return new BufferedDataTable[] { container.getTable() };
+		return new BufferedDataTable[] {};
 	}
 
 	/**
@@ -238,49 +205,16 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	private void addRows(final BufferedDataContainer container, final LabelingCell<L> cell, final RowKey key)
 			throws InvalidSettingsException {
-		final List<Future<Pair<String, DoubleCell[]>>> futures = new ArrayList<>();
 
-		final int[] selectedDimIndices = dimSelection.getSelectedDimIndices(cell.getLabelingMetadata());
-		if (selectedDimIndices.length != 2) {
-			// If a selected dimension does not exist, inform the user.
-			throw new InvalidSettingsException("Selected dimensions result in none two dimensional ROIs.");
-		}
+		// TODO 1. Slice the labeling based on the selected dimensions of dimSelection.
 
-		final SlicesII<LabelingType<L>> slices = new SlicesII<>(cell.getLabeling(), selectedDimIndices, true);
+		// TODO 2. Initialize centroidFunction and converter.
 
-		long sliceCount = 0;
-		for (final RandomAccessibleInterval<LabelingType<L>> slice : slices) {
-			// Get all ROIs of this slice.
-			final LabelRegions<L> regions = KNIPGateway.regions().regions(slice);
+		// TODO 3. Submit a Callable to KNIPGateway.threads() for each slice and compute
+		// min max radius.
 
-			for (final LabelRegion<L> region : regions) {
-				final long currentSlice = sliceCount;
-
-				if (centroidFunction == null || converter == null) {
-
-					// TODO Initialize ops with the first available ROI.
-
-				}
-
-				// Process ROIs in parallel
-				futures.add(KNIPGateway.threads().run(() -> {
-					// Make sure that a unique identifier is created.
-					return new Pair<>("Region" + region.getLabel().toString() + "_Slice" + currentSlice,
-							computeMinMaxRadius(region));
-				}));
-			}
-			sliceCount++;
-		}
-
-		for (final Future<Pair<String, DoubleCell[]>> future : futures) {
-			try {
-				future.get();
-				// TODO Collect the results and generate a unique row id for each new row.
-
-			} catch (InterruptedException | ExecutionException e) {
-				LOGGER.error(e);
-			}
-		}
+		// TODO 4. Collect the results and add them to the container.
+		// Note: Make sure that each row has a unique rowid: oldRowID + label + slice
 
 	}
 
@@ -293,21 +227,12 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	private DoubleCell[] computeMinMaxRadius(final LabelRegion<L> region) {
 
-		final RealLocalizable centroid = centroidFunction.calculate(region);
-		final Polygon2D poly = converter.calculate(region);
+		// TODO Compute min and max radius of the given region.
+		// Note:
+		// - Use centroidFunction to get the centroid.
+		// - Use converter to get the polygon describing the region.
 
-		double minDist = Double.MAX_VALUE;
-		double maxDist = 0;
-		double tmpDist;
-		for (int i = 0; i < poly.numVertices(); i++) {
-			final RealLocalizable v = poly.vertex(i);
-			tmpDist = Math.sqrt(Math.pow(centroid.getDoublePosition(0) - v.getDoublePosition(0), 2)
-					+ Math.pow(centroid.getDoublePosition(1) - v.getDoublePosition(1), 2));
-			minDist = tmpDist < minDist ? tmpDist : minDist;
-			maxDist = tmpDist > maxDist ? tmpDist : maxDist;
-		}
-
-		return new DoubleCell[] { new DoubleCell(minDist), new DoubleCell(maxDist) };
+		return new DoubleCell[] {};
 	}
 
 	/**
@@ -317,8 +242,11 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 * @return table spec with columns "Min Radius" and "Max Radius"
 	 */
 	private DataTableSpec createDataTableSpec() {
-		return new DataTableSpec(new String[] { "Min Radius", "Max Radius" },
-				new DataType[] { DoubleCell.TYPE, DoubleCell.TYPE });
+
+		// TODO Create an output DataTableSpec with two columns ("Max Radius", "Min
+		// Radius") of type DataCell.TYPE.
+
+		return new DataTableSpec();
 	}
 
 	/**
@@ -326,8 +254,9 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	@Override
 	protected void saveSettingsTo(NodeSettingsWO settings) {
-		columnSelection.saveSettingsTo(settings);
-		dimSelection.saveSettingsTo(settings);
+
+		// TODO Save columnSelection and dimSelection to settings.
+
 	}
 
 	/**
@@ -335,8 +264,9 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	@Override
 	protected void validateSettings(NodeSettingsRO settings) throws InvalidSettingsException {
-		columnSelection.validateSettings(settings);
-		dimSelection.validateSettings(settings);
+
+		// TODO Validate columnSelection and dimSelection from settings.
+
 	}
 
 	/**
@@ -344,8 +274,9 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	@Override
 	protected void loadValidatedSettingsFrom(NodeSettingsRO settings) throws InvalidSettingsException {
-		columnSelection.loadSettingsFrom(settings);
-		dimSelection.loadSettingsFrom(settings);
+
+		// TODO Load validated columnSelection and dimSelection from settings.
+
 	}
 
 	/**

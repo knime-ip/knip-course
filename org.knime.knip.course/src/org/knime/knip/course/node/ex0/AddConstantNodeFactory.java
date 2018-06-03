@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2013
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,24 +46,59 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.ex1;
+package org.knime.knip.course.node.ex0;
 
-import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
+import org.knime.core.node.NodeDialogPane;
+import org.knime.core.node.NodeFactory;
+import org.knime.core.node.NodeView;
 
 import net.imglib2.type.numeric.RealType;
 
 /**
- * MinMaxRadiusNodeDialog.
- * 
- * @author Tim-Oliver Buchholz, University of Konstanz
+ * Node factory for a node that adds a constant value to an image.
+ *
+ * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  */
-public class MinMaxRadiusNodeDialog<T extends RealType<T>> extends DefaultNodeSettingsPane {
+public class AddConstantNodeFactory<T extends RealType<T>> extends NodeFactory<AddConstantNodeModel<T>> {
 
-	@SuppressWarnings("unchecked")
-	public MinMaxRadiusNodeDialog() {
-		super();
-		// TODO Add dialog components:
-		// - Column Selection
-		// - Dimension Selection
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected int getNrNodeViews() {
+		return 0; // No views
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public NodeView<AddConstantNodeModel<T>> createNodeView(int viewIndex, AddConstantNodeModel<T> nodeModel) {
+		return null;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected boolean hasDialog() {
+		return true;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected NodeDialogPane createNodeDialogPane() {
+		return new AddConstantNodeDialog();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public AddConstantNodeModel<T> createNodeModel() {
+		return new AddConstantNodeModel<>();
+	}
+
 }
