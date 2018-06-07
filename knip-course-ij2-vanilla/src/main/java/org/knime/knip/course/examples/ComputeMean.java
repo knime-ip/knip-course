@@ -5,6 +5,7 @@ import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
 import net.imglib2.type.numeric.real.DoubleType;
 
+import org.scijava.ItemIO;
 import org.scijava.command.Command;
 import org.scijava.plugin.Parameter;
 import org.scijava.plugin.Plugin;
@@ -23,7 +24,7 @@ public class ComputeMean< T extends RealType< T > > implements Command
 	@Parameter
 	private Img< T > input;
 
-	@Parameter
+	@Parameter (type = ItemIO.OUTPUT)
 	private double mean;
 
 	@Parameter
