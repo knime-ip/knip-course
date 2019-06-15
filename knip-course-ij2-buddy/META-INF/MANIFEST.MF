@@ -20,6 +20,9 @@ Require-Bundle: org.knime.base,
  imglib2-ij;bundle-version="2.0.35",
  imglib2-algorithm;bundle-version="0.6.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Bundle-ClassPath: knip-ij2-example.jar
+Bundle-ClassPath: knip-ij2-example.jar,
+ lib/Colocalisation_Analysis-3.0.5.jar,
+ lib/fiji-lib-2.1.2.jar,
+ lib/itextpdf-5.5.13.jar
 Bundle-ActivationPolicy: lazy
 
