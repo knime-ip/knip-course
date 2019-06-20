@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2013
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,66 +46,25 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.copyimg;
+package org.knime.knip.course.node.exercise.addconstant;
 
-import org.knime.core.node.NodeDialogPane;
-import org.knime.core.node.NodeFactory;
-import org.knime.core.node.NodeView;
-
-import net.imglib2.type.numeric.RealType;
+import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
 
 /**
- * CopyImgsNodeFactory.
- * 
- * @author Tim-Oliver Buchholz, University of Konstanz
+ * A node dialog for a node which adds a constant value to an image.
+ *
+ * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  */
-public class CopyImgNodeFactory<T extends RealType<T>>
-		extends NodeFactory<CopyImgNodeModel<T>> {
+public class AddConstantNodeDialog extends DefaultNodeSettingsPane {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected int getNrNodeViews() {
-		// Number of views this node has.
-		return 0;
+	@SuppressWarnings("unchecked")
+	public AddConstantNodeDialog() {
+		super();
+
+		// TODO exercise 1: Add dialog components:
+		// - Column Selection
+		// - Value to add
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public NodeView<CopyImgNodeModel<T>> createNodeView(int viewIndex, CopyImgNodeModel<T> nodeModel) {
-		// Create a node view for each view.
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean hasDialog() {
-		// This example node has a node dialog which is implemented in
-		// MinMaxRadiusNodeDialog.
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected NodeDialogPane createNodeDialogPane() {
-		// Create the NodeDialog.
-		return new CopyImgNodeDialog<>();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public CopyImgNodeModel<T> createNodeModel() {
-		// Create the NodeModel.
-		return new CopyImgNodeModel<>();
-	}
-
 }

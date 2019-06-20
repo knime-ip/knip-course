@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,31 +46,26 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.ex1part1;
+package org.knime.knip.course.node.exercise.minmaxradius;
 
 import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
-import org.knime.core.node.defaultnodesettings.DialogComponentColumnNameSelection;
-import org.knime.knip.base.data.labeling.LabelingValue;
-import org.knime.knip.base.node.dialog.DialogComponentDimSelection;
-
-import net.imglib2.type.numeric.RealType;
 
 /**
- * MinMaxRadiusNodeDialog.
- * 
+ * A node dialog for a node which computes for each given ROI in a Labeling the
+ * minimum and maximum radius from the centroid to the perimeter.
+ *
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class MinMaxRadiusNodeDialog<T extends RealType<T>> extends DefaultNodeSettingsPane {
+public class MinMaxRadiusNodeDialog extends DefaultNodeSettingsPane {
 
 	@SuppressWarnings("unchecked")
 	public MinMaxRadiusNodeDialog() {
 		super();
-		// Add dialog components:
+
+		// TODO exercise 1: Add dialog components:
 		// - Column Selection
-		addDialogComponent(new DialogComponentColumnNameSelection(MinMaxRadiusNodeModel.createColumnSelection(),
-				"Labeling", 0, LabelingValue.class));
 		// - Dimension Selection
-		addDialogComponent(
-				new DialogComponentDimSelection(MinMaxRadiusNodeModel.createDimSelection(), "Dimensions", 2, 2));
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 }

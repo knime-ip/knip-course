@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.minmaxradius;
+package org.knime.knip.course.node.solution.minmaxradius;
 
 import java.io.File;
 import java.io.IOException;
@@ -96,30 +96,27 @@ import net.imglib2.roi.labeling.LabelingType;
 import net.imglib2.type.numeric.RealType;
 
 /**
- * MinMaxRadiusNodeModel.
- * 
+ * A node model for a node which computes for each given ROI in a Labeling the
+ * minimum and maximum radius from the centroid to the perimeter.
+ *
  * @author Tim-Oliver Buchholz, University of Konstanz
+ * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  */
 public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O>> extends NodeModel {
 
 	/**
-	 * Settings model of the column selection.
+	 * KNIP logger instance.
 	 */
-	private SettingsModelString columnSelection = createColumnSelection();
+	private static final LogService LOGGER = KNIPGateway.log();
 
 	/**
 	 * Create a settings model for the column selection component.
-	 * 
+	 *
 	 * @return SettingsModelString
 	 */
 	protected static SettingsModelString createColumnSelection() {
 		return new SettingsModelString("ColumnSelection", "");
 	}
-
-	/**
-	 * Settings model of the dimension selection.
-	 */
-	private SettingsModelDimSelection dimSelection = createDimSelection();
 
 	/**
 	 * Create a settings model for the dimension selection component.
@@ -131,19 +128,24 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	}
 
 	/**
-	 * KNIP logger instance.
+	 * Settings model of the column selection.
 	 */
-	private static final LogService LOGGER = KNIPGateway.log();
+	private SettingsModelString m_columnSelection = createColumnSelection();
+
+	/**
+	 * Settings model of the dimension selection.
+	 */
+	private SettingsModelDimSelection m_dimSelection = createDimSelection();
 
 	/**
 	 * The centroid function from imagej-ops.
 	 */
-	private UnaryFunctionOp<LabelRegion<L>, RealLocalizable> centroidFunction;
+	private UnaryFunctionOp<LabelRegion<L>, RealLocalizable> m_centroidFunction;
 
 	/**
 	 * The LabelRegion to Polygon converter from imagej-ops.
 	 */
-	private UnaryFunctionOp<LabelRegion<L>, Polygon2D> converter;
+	private UnaryFunctionOp<LabelRegion<L>, Polygon2D> m_converter;
 
 	/**
 	 * Constructor of the MinMaxRadiusNodeModel.
@@ -152,54 +154,59 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 		super(1, 1);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 		final DataTableSpec spec = inSpecs[0];
 
-		// Check table spec if column is available.
-		NodeUtils.autoColumnSelection(spec, columnSelection, LabelingValue.class, this.getClass());
+		// Check table spec if column is available
+		NodeUtils.autoColumnSelection(spec, m_columnSelection, LabelingValue.class, this.getClass());
 
-		// If everything looks fine, create an output table spec.
+		// If everything looks fine, create an output table spec
 		return new DataTableSpec[] { createDataTableSpec() };
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Create the table spec of the output table. In this case a new table with just
+	 * two columns is generated.
+	 * 
+	 * @return table spec with columns "Min Radius" and "Max Radius"
 	 */
+	private DataTableSpec createDataTableSpec() {
+		return new DataTableSpec(new String[] { "Min Radius", "Max Radius" },
+				new DataType[] { DoubleCell.TYPE, DoubleCell.TYPE });
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
 			throws Exception {
-		// The datatable passed by the first dataport.
+		// The datatable passed by the first dataport
 		final BufferedDataTable data = inData[0];
 
-		// Variables to compute progress.
+		// Variables to compute progress
 		final double numRows = data.size();
 		long currentRow = 0;
 
-		// Create a container to store the output.
+		// Create a container to store the output
 		final BufferedDataContainer container = exec.createDataContainer(createDataTableSpec());
 
 		for (final DataRow row : data) {
-			// Check if execution got canceled.
+			// Check if execution got canceled
 			exec.checkCanceled();
 
-			// Get the data cell.
-			final DataCell cell = row.getCell(data.getSpec().findColumnIndex(columnSelection.getStringValue()));
+			// Get the data cell
+			final DataCell cell = row.getCell(data.getSpec().findColumnIndex(m_columnSelection.getStringValue()));
 
 			if (cell.isMissing()) {
-				// If the cell is missing, insert missing cells and inform user via log.
+				// If the cell is missing, insert missing cells and inform user via log
 				container.addRowToTable(new DefaultRow(row.getKey(), new MissingCell(null), new MissingCell(null)));
 				LOGGER.warn("Missing cell in row " + row.getKey().getString() + ". Missing cell inserted.");
 			} else {
-				// Else compute the results.
+				// Else compute the results
 				addRows(container, (LabelingCell<L>) cell, row.getKey());
 			}
 
-			// Update progress indicator.
+			// Update progress indicator
 			exec.setProgress(currentRow++ / numRows);
 		}
 
@@ -214,12 +221,11 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 * not available at the time. The ops are initiated with the first actual
 	 * data-instance.
 	 * 
-	 * @param region
-	 *            the first real LabelRegion
+	 * @param region the first real LabelRegion
 	 */
 	private void init(final LabelRegion<L> region) {
-		centroidFunction = Functions.unary(KNIPGateway.ops(), Centroid.class, RealLocalizable.class, region);
-		converter = Functions.unary(KNIPGateway.ops(), Contour.class, Polygon2D.class, region, true);
+		m_centroidFunction = Functions.unary(KNIPGateway.ops(), Centroid.class, RealLocalizable.class, region);
+		m_converter = Functions.unary(KNIPGateway.ops(), Contour.class, Polygon2D.class, region, true);
 	}
 
 	/**
@@ -229,22 +235,18 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 * processed. Since a Label can result in many slices of any size, the slices
 	 * are processed concurrently.
 	 * 
-	 * @param container
-	 *            to store the result
-	 * @param cell
-	 *            the current cell containing the Labeling
-	 * @param key
-	 *            the current row key
-	 * @throws InvalidSettingsException
-	 *             if it is not possible to create 2D slices
+	 * @param container to store the result
+	 * @param cell      the current cell containing the Labeling
+	 * @param key       the current row key
+	 * @throws InvalidSettingsException if it is not possible to create 2D slices
 	 */
 	private void addRows(final BufferedDataContainer container, final LabelingCell<L> cell, final RowKey key)
 			throws InvalidSettingsException {
 		final List<Future<Pair<String, DoubleCell[]>>> futures = new ArrayList<>();
 
-		final int[] selectedDimIndices = dimSelection.getSelectedDimIndices(cell.getLabelingMetadata());
+		final int[] selectedDimIndices = m_dimSelection.getSelectedDimIndices(cell.getLabelingMetadata());
 		if (selectedDimIndices.length != 2) {
-			// If a selected dimension does not exist, inform the user.
+			// If a selected dimension does not exist, inform the user
 			throw new InvalidSettingsException("Selected dimensions result in none two dimensional ROIs.");
 		}
 
@@ -252,20 +254,20 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 
 		long sliceCount = 0;
 		for (final RandomAccessibleInterval<LabelingType<L>> slice : slices) {
-			// Get all ROIs of this slice.
+			// Get all ROIs of this slice
 			final LabelRegions<L> regions = KNIPGateway.regions().regions(slice);
 
 			for (final LabelRegion<L> region : regions) {
 				final long currentSlice = sliceCount;
 
-				if (centroidFunction == null || converter == null) {
-					// Initialize ops with the first available ROI.
+				if (m_centroidFunction == null || m_converter == null) {
+					// Initialize ops with the first available ROI
 					init(region);
 				}
 
 				// Process ROIs in parallel
 				futures.add(KNIPGateway.threads().run(() -> {
-					// Make sure that a unique identifier is created.
+					// Make sure that a unique identifier is created
 					return new Pair<>("Region" + region.getLabel().toString() + "_Slice" + currentSlice,
 							computeMinMaxRadius(region));
 				}));
@@ -275,7 +277,7 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 
 		for (final Future<Pair<String, DoubleCell[]>> future : futures) {
 			try {
-				// Collect the results and generate a unique row id for each new row.
+				// Collect the results and generate a unique row id for each new row
 				container.addRowToTable(
 						new DefaultRow(key.getString() + "_" + future.get().getFirst(), future.get().getSecond()));
 			} catch (InterruptedException | ExecutionException e) {
@@ -288,14 +290,13 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	/**
 	 * Compute the min and max radius for one ROI.
 	 * 
-	 * @param region
-	 *            the ROI
+	 * @param region the ROI
 	 * @return the min and max radius
 	 */
 	private DoubleCell[] computeMinMaxRadius(final LabelRegion<L> region) {
 
-		final RealLocalizable centroid = centroidFunction.calculate(region);
-		final Polygon2D poly = converter.calculate(region);
+		final RealLocalizable centroid = m_centroidFunction.calculate(region);
+		final Polygon2D poly = m_converter.calculate(region);
 
 		double minDist = Double.MAX_VALUE;
 		double maxDist = 0;
@@ -311,68 +312,38 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 		return new DoubleCell[] { new DoubleCell(minDist), new DoubleCell(maxDist) };
 	}
 
-	/**
-	 * Create the table spec of the output table. In this case a new table with just
-	 * two columns is generated.
-	 * 
-	 * @return table spec with columns "Min Radius" and "Max Radius"
-	 */
-	private DataTableSpec createDataTableSpec() {
-		return new DataTableSpec(new String[] { "Min Radius", "Max Radius" },
-				new DataType[] { DoubleCell.TYPE, DoubleCell.TYPE });
+	@Override
+	protected void saveSettingsTo(final NodeSettingsWO settings) {
+		m_columnSelection.saveSettingsTo(settings);
+		m_dimSelection.saveSettingsTo(settings);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void saveSettingsTo(NodeSettingsWO settings) {
-		columnSelection.saveSettingsTo(settings);
-		dimSelection.saveSettingsTo(settings);
+	protected void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException {
+		m_columnSelection.validateSettings(settings);
+		m_dimSelection.validateSettings(settings);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void validateSettings(NodeSettingsRO settings) throws InvalidSettingsException {
-		columnSelection.validateSettings(settings);
-		dimSelection.validateSettings(settings);
+	protected void loadValidatedSettingsFrom(final NodeSettingsRO settings) throws InvalidSettingsException {
+		m_columnSelection.loadSettingsFrom(settings);
+		m_dimSelection.loadSettingsFrom(settings);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void loadValidatedSettingsFrom(NodeSettingsRO settings) throws InvalidSettingsException {
-		columnSelection.loadSettingsFrom(settings);
-		dimSelection.loadSettingsFrom(settings);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void loadInternals(File nodeInternDir, ExecutionMonitor exec)
+	protected void loadInternals(final File nodeInternDir, final ExecutionMonitor exec)
 			throws IOException, CanceledExecutionException {
-		// Ex.: Models built during execution.
+		// nothing to do
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void saveInternals(File nodeInternDir, ExecutionMonitor exec)
+	protected void saveInternals(final File nodeInternDir, final ExecutionMonitor exec)
 			throws IOException, CanceledExecutionException {
-		// Ex.: Models built during execution.
+		// nothing to do
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void reset() {
-		// Ex.: Models built during execution.
+		// nothing to do
 	}
-
 }

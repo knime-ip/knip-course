@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.ex0;
+package org.knime.knip.course.node.exercise.addconstant;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,60 +57,81 @@ import org.knime.core.node.CanceledExecutionException;
 import org.knime.core.node.ExecutionContext;
 import org.knime.core.node.ExecutionMonitor;
 import org.knime.core.node.InvalidSettingsException;
-import org.knime.core.node.NodeLogger;
 import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
 import org.knime.core.node.defaultnodesettings.SettingsModelDouble;
 import org.knime.core.node.defaultnodesettings.SettingsModelString;
+import org.knime.knip.core.KNIPGateway;
+import org.scijava.log.LogService;
 
 import net.imglib2.type.numeric.RealType;
 
 /**
- * Node that adds a constant value to an image.
+ * A node model for a node which adds a constant value to an image.
  *
  * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  */
 public class AddConstantNodeModel<T extends RealType<T>> extends NodeModel {
 
-	// The logger instance
-	private static final NodeLogger LOGGER = NodeLogger.getLogger(AddConstantNodeModel.class);
+	/**
+	 * KNIP logger instance.
+	 */
+	private static final LogService LOGGER = KNIPGateway.log();
 
-	/** The value which should be added to the image */
-	private final SettingsModelDouble m_value = createValue();
-
-	/** The column selection */
-	private final SettingsModelString m_columnSelection = createColumnSelection();
-
-	protected static SettingsModelDouble createValue() {
-		// TODO Create SettingsModelString for the value which should be added to the
-		// image.
-		return null;
-	}
-
+	/**
+	 * Create a settings model for the column selection component.
+	 *
+	 * @return SettingsModelString
+	 */
 	protected static SettingsModelString createColumnSelection() {
-		// TODO Create SettingsModelString for the column selection dialog.
-		return null;
+
+		// TODO exercise 2.1: Create a settings model for the column selection.
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/**
-	 * Constructor of the AddConstantNodeModel.
+	 * Create a settings model for the value to add.
+	 *
+	 * @return SettingsModelDouble
+	 */
+	protected static SettingsModelDouble createValue() {
+
+		// TODO exercise 2.2: Create a settings model for the value which should be
+		// added to the image
+
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	/**
+	 * Settings model of the column selection.
+	 */
+	private final SettingsModelString m_columnSelection = createColumnSelection();
+
+	/**
+	 * Settings model of the number to add.
+	 */
+	private final SettingsModelDouble m_value = createValue();
+
+	/**
+	 * Constructor of the {@link AddConstantNodeModel}.
 	 */
 	protected AddConstantNodeModel() {
+		// One input and one output
 		super(1, 1);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected DataTableSpec[] configure(DataTableSpec[] inSpecs) throws InvalidSettingsException {
+	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
+		final DataTableSpec spec = inSpecs[0];
 
-		// TODO 1. Check if selected column is part of the input DataTableSpec.
-		// Note: Use NodeUtils
-		// TODO 2. Create output DataTableSpec.
+		// TODO exercise 3.1: Check if the selected column is part of the input table.
+		// NOTE: use NodeUtils.
 
-		return new DataTableSpec[] {};
+		// TODO exercise 3.2: Create the output table spec (#createDataTableSpec())
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/**
@@ -119,74 +140,75 @@ public class AddConstantNodeModel<T extends RealType<T>> extends NodeModel {
 	 * @return table spec with column "Add"
 	 */
 	private DataTableSpec createDataTableSpec() {
-		// TODO Create an output DataTableSpec with one column ("Add") of type
-		// ImgPlusCell.TYPE.
-		return null;
+
+		// TODO exercise 3.3: Create an output DataTableSpec with one column {"Add"} of
+		// type ImgPlusCell.TYPE.
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected BufferedDataTable[] execute(BufferedDataTable[] inData, ExecutionContext exec) throws Exception {
+	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
+			throws Exception {
 
-		// TODO 1. Create a new BufferedDataContainer with the ExecutionContext exec.
+		// TODO exercise 4.1: Use the ExecutionContext exec to create a new
+		// BufferedDataContainer for the output table.
 
-		// TODO 2. Iterate over each row and process it.
-		// - Check if the cell is missing!
-		// - Close the BufferedDataContainer before returing the BufferedDataTable.
+		// TODO exercise 4.2: Iterate over each row and add the value to the selected
+		// image.
+		// NOTE:
+		// - Find the index of the selected cell using the specs of the input table.
+		// - The cell has the type ImgPlusCell.
+		// - Close the BufferedDataContainer before returning the table!
 
-		// TODO 3. Add exec.checkCanceled() and exec.setProgress().
+		// TODO exercise 5: Handle missing cells.
 
-		return new BufferedDataTable[] {};
+		// TODO exercise 6.1: Check if the execution was canceled.
+		// NOTE: Use the ExecutionContext
+
+		// TODO exercise 6.2: Report the execution progress.
+		// NOTE: Use the ExecutionContext
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void saveSettingsTo(NodeSettingsWO settings) {
-		// TODO Save columnSelection and value to settings.
+	protected void saveSettingsTo(final NodeSettingsWO settings) {
+
+		// TODO exercise 2.3: save the column selection and value to the settings
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void validateSettings(NodeSettingsRO settings) throws InvalidSettingsException {
-		// TODO Validate columnSelection and value from settings.
+	protected void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException {
+
+		// TODO exercise 2.4: validate the column selection and value from the settings
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void loadValidatedSettingsFrom(NodeSettingsRO settings) throws InvalidSettingsException {
-		// TODO Load columnSelection and value from settings.
+	protected void loadValidatedSettingsFrom(final NodeSettingsRO settings) throws InvalidSettingsException {
+
+		// TODO exercise 2.5: load the column selection and value from the settings
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void loadInternals(File nodeInternDir, ExecutionMonitor exec)
+	protected void loadInternals(final File nodeInternDir, final ExecutionMonitor exec)
 			throws IOException, CanceledExecutionException {
 		// nothing to do
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void saveInternals(File nodeInternDir, ExecutionMonitor exec)
+	protected void saveInternals(final File nodeInternDir, final ExecutionMonitor exec)
 			throws IOException, CanceledExecutionException {
 		// nothing to do
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void reset() {
 		// nothing to do

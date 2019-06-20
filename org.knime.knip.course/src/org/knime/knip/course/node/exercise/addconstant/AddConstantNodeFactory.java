@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2013
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,25 +46,43 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.addconstant;
+package org.knime.knip.course.node.exercise.addconstant;
 
-import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
-import org.knime.core.node.defaultnodesettings.DialogComponentColumnNameSelection;
-import org.knime.core.node.defaultnodesettings.DialogComponentNumber;
-import org.knime.knip.base.data.img.ImgPlusValue;
+import org.knime.core.node.NodeDialogPane;
+import org.knime.core.node.NodeFactory;
+import org.knime.core.node.NodeView;
+
+import net.imglib2.type.numeric.RealType;
 
 /**
- * Node settings for the constant value adder.
+ * Node factory for a node that adds a constant value to an image.
  *
  * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  */
-public class AddConstantNodeDialog extends DefaultNodeSettingsPane {
+public class AddConstantNodeFactory<T extends RealType<T>> extends NodeFactory<AddConstantNodeModel<T>> {
 
-	@SuppressWarnings("unchecked")
-	public AddConstantNodeDialog() {
-		super();
-		addDialogComponent(new DialogComponentColumnNameSelection(AddConstantNodeModel.createColumnSelection(), "Labeling",
-				0, ImgPlusValue.class));
-		addDialogComponent(new DialogComponentNumber(AddConstantNodeModel.createValue(), "Value", 1));
+	@Override
+	protected int getNrNodeViews() {
+		return 0; // No views
+	}
+
+	@Override
+	public NodeView<AddConstantNodeModel<T>> createNodeView(int viewIndex, AddConstantNodeModel<T> nodeModel) {
+		return null;
+	}
+
+	@Override
+	protected boolean hasDialog() {
+		return true;
+	}
+
+	@Override
+	protected NodeDialogPane createNodeDialogPane() {
+		return new AddConstantNodeDialog();
+	}
+
+	@Override
+	public AddConstantNodeModel<T> createNodeModel() {
+		return new AddConstantNodeModel<>();
 	}
 }

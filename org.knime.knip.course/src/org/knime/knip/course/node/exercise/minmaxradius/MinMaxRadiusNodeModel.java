@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.ex1;
+package org.knime.knip.course.node.exercise.minmaxradius;
 
 import java.io.File;
 import java.io.IOException;
@@ -76,33 +76,30 @@ import net.imglib2.roi.labeling.LabelRegion;
 import net.imglib2.type.numeric.RealType;
 
 /**
- * MinMaxRadiusNodeModel.
- * 
+ * A node model for a node which computes for each given ROI in a Labeling the
+ * minimum and maximum radius from the centroid to the perimeter.
+ *
  * @author Tim-Oliver Buchholz, University of Konstanz
+ * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  */
 public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O>> extends NodeModel {
 
 	/**
-	 * Settings model of the column selection.
+	 * KNIP logger instance.
 	 */
-	private SettingsModelString columnSelection = createColumnSelection();
+	private static final LogService LOGGER = KNIPGateway.log();
 
 	/**
 	 * Create a settings model for the column selection component.
-	 * 
+	 *
 	 * @return SettingsModelString
 	 */
 	protected static SettingsModelString createColumnSelection() {
 
-		// TODO Create SettingsModelString for the column selection dialog.
+		// TODO exercise 2.1: Create a settings model for the column selection.
 
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
-
-	/**
-	 * Settings model of the dimension selection.
-	 */
-	private SettingsModelDimSelection dimSelection = createDimSelection();
 
 	/**
 	 * Create a settings model for the dimension selection component.
@@ -111,25 +108,30 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	protected static SettingsModelDimSelection createDimSelection() {
 
-		// TODO Create SettingsModelDimSelection for the dimension selection dialog.
+		// TODO exercise 2.2: Create a settings model for dimension selection
 
-		return null;
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/**
-	 * KNIP logger instance.
+	 * Settings model of the column selection.
 	 */
-	private static final LogService LOGGER = KNIPGateway.log();
+	private SettingsModelString m_columnSelection = createColumnSelection();
+
+	/**
+	 * Settings model of the dimension selection.
+	 */
+	private SettingsModelDimSelection m_dimSelection = createDimSelection();
 
 	/**
 	 * The centroid function from imagej-ops.
 	 */
-	private UnaryFunctionOp<LabelRegion<L>, RealLocalizable> centroidFunction;
+	private UnaryFunctionOp<LabelRegion<L>, RealLocalizable> m_centroidFunction;
 
 	/**
 	 * The LabelRegion to Polygon converter from imagej-ops.
 	 */
-	private UnaryFunctionOp<LabelRegion<L>, Polygon2D> converter;
+	private UnaryFunctionOp<LabelRegion<L>, Polygon2D> m_converter;
 
 	/**
 	 * Constructor of the MinMaxRadiusNodeModel.
@@ -138,101 +140,16 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 		super(1, 1);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 		final DataTableSpec spec = inSpecs[0];
 
-		// TODO 1. Check if selected column is part of the input DataTableSpec.
-		// Note: Use NodeUtils
-		// TODO 2. Create output DataTableSpec.
+		// TODO exercise 3.1: Check if the selected column is part of the input table.
+		// NOTE: use NodeUtils.
 
-		return new DataTableSpec[] {};
-	}
+		// TODO exercise 3.2: Create the output table spec (#createDataTableSpec())
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
-			throws Exception {
-
-		// TODO 1. Create a new BufferedDataContainer with the ExecutionContext exec.
-
-		// TODO 2. Iterate over each row and process it.
-		// - Check if the cell is missing!
-		// - Close the BufferedDataContainer before returing the BufferedDataTable.
-
-		// TODO 3. Add exec.checkCanceled() and exec.setProgress().
-
-		return new BufferedDataTable[] {};
-	}
-
-	/**
-	 * Initiate ops. This is not possible during
-	 * {@link MinMaxRadiusNodeModel#configure(DataTableSpec[])} since the data is
-	 * not available at the time. The ops are initiated with the first actual
-	 * data-instance.
-	 * 
-	 * @param region
-	 *            the first real LabelRegion
-	 */
-	private void init(final LabelRegion<L> region) {
-
-		// TODO Initialize centroidFunction and converter.
-		// Note: OpService is available via KNIPGateway.ops().
-
-	}
-
-	/**
-	 * Add for each LabelRegion in a Labeling a new row with the min and max radius.
-	 * 
-	 * In this method, the ROIs get sliced to 2D slices which then will be
-	 * processed. Since a Label can result in many slices of any size, the slices
-	 * are processed concurrently.
-	 * 
-	 * @param container
-	 *            to store the result
-	 * @param cell
-	 *            the current cell containing the Labeling
-	 * @param key
-	 *            the current row key
-	 * @throws InvalidSettingsException
-	 *             if it is not possible to create 2D slices
-	 */
-	private void addRows(final BufferedDataContainer container, final LabelingCell<L> cell, final RowKey key)
-			throws InvalidSettingsException {
-
-		// TODO 1. Slice the labeling based on the selected dimensions of dimSelection.
-
-		// TODO 2. Initialize centroidFunction and converter.
-
-		// TODO 3. Submit a Callable to KNIPGateway.threads() for each slice and compute
-		// min max radius.
-
-		// TODO 4. Collect the results and add them to the container.
-		// Note: Make sure that each row has a unique rowid: oldRowID + label + slice
-
-	}
-
-	/**
-	 * Compute the min and max radius for one ROI.
-	 * 
-	 * @param region
-	 *            the ROI
-	 * @return the min and max radius
-	 */
-	private DoubleCell[] computeMinMaxRadius(final LabelRegion<L> region) {
-
-		// TODO Compute min and max radius of the given region.
-		// Note:
-		// - Use centroidFunction to get the centroid.
-		// - Use converter to get the polygon describing the region.
-
-		return new DoubleCell[] {};
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/**
@@ -243,66 +160,138 @@ public class MinMaxRadiusNodeModel<L extends Comparable<L>, O extends RealType<O
 	 */
 	private DataTableSpec createDataTableSpec() {
 
-		// TODO Create an output DataTableSpec with two columns ("Max Radius", "Min
-		// Radius") of type DataCell.TYPE.
+		// TODO exercise 3.3: Create an output DataTableSpec with two columns {"Max
+		// Radius", "Min Radius"} of type DoubleCell.TYPE
 
-		return new DataTableSpec();
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
+			throws Exception {
+
+		// TODO exercise 4.1: Use the ExecutionContext exec to create a new
+		// BufferedDataContainer for the output table.
+
+		// TODO exercise 4.2: Iterate over each row and process it (#addRows)
+		// NOTE:
+		// - Find the index of the selected cell using the specs of the input table.
+		// - Close the BufferedDataContainer before returning the table!
+
+		// TODO exercise 7: Handle missing cells.
+
+		// TODO exercise 8.1: Check if the execution was canceled.
+		// NOTE: Use the ExecutionContext
+
+		// TODO exercise 8.2: Report the execution progress.
+		// NOTE: Use the ExecutionContext
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Initiate ops. This is not possible during
+	 * {@link MinMaxRadiusNodeModel#configure(DataTableSpec[])} since the data is
+	 * not available at the time. The ops are initiated with the first actual
+	 * data-instance.
+	 * 
+	 * @param region the first real LabelRegion
 	 */
-	@Override
-	protected void saveSettingsTo(NodeSettingsWO settings) {
+	private void init(final LabelRegion<L> region) {
 
-		// TODO Save columnSelection and dimSelection to settings.
+		// TODO exercise 5.3: Initialize centroidFunction and converter.
+		// Note: OpService is available via KNIPGateway.ops().
 
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Add for each LabelRegion in a Labeling a new row with the min and max radius.
+	 * 
+	 * In this method, the ROIs get sliced to 2D slices which then will be
+	 * processed. Since a Label can result in many slices of any size, the slices
+	 * are processed concurrently.
+	 * 
+	 * @param container to store the result
+	 * @param cell      the current cell containing the Labeling
+	 * @param key       the current row key
+	 * @throws InvalidSettingsException if it is not possible to create 2D slices
 	 */
-	@Override
-	protected void validateSettings(NodeSettingsRO settings) throws InvalidSettingsException {
+	private void addRows(final BufferedDataContainer container, final LabelingCell<L> cell, final RowKey key)
+			throws InvalidSettingsException {
 
-		// TODO Validate columnSelection and dimSelection from settings.
+		// TODO exercise 5.1: Slice the labeling based on the selected dimensions of
+		// dimSelection.
 
+		// TODO exercise 5.2: Initialize centroidFunction and converter.
+
+		// TODO exercise 5.4: Submit a Callable to KNIPGateway.threads() for each slice
+		// and compute min max radius.
+
+		// TODO exercise 5.5: Collect the results and add them to the container.
+		// Note: Make sure that each row has a unique rowid: oldRowID + label + slice
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
 	/**
-	 * {@inheritDoc}
+	 * Compute the min and max radius for one ROI.
+	 * 
+	 * @param region the ROI
+	 * @return the min and max radius
 	 */
-	@Override
-	protected void loadValidatedSettingsFrom(NodeSettingsRO settings) throws InvalidSettingsException {
+	private DoubleCell[] computeMinMaxRadius(final LabelRegion<L> region) {
 
-		// TODO Load validated columnSelection and dimSelection from settings.
+		// TODO exercise 6: Compute min and max radius of the given region.
+		// NOTE:
+		// - Use centroidFunction to get the centroid.
+		// - Use converter to get the polygon describing the region.
 
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void loadInternals(File nodeInternDir, ExecutionMonitor exec)
+	protected void saveSettingsTo(final NodeSettingsWO settings) {
+
+		// TODO exercise 2.3: save the column selection and dimension selection to the
+		// settings
+
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	@Override
+	protected void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException {
+
+		// TODO exercise 2.4: validate the column selection and dimension selection from
+		// the settings
+
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	@Override
+	protected void loadValidatedSettingsFrom(final NodeSettingsRO settings) throws InvalidSettingsException {
+
+		// TODO exercise 2.5: load the column selection and dimension selection from the
+		// settings
+
+		throw new UnsupportedOperationException("Not implemented yet");
+	}
+
+	@Override
+	protected void loadInternals(final File nodeInternDir, final ExecutionMonitor exec)
 			throws IOException, CanceledExecutionException {
-		// Ex.: Models built during execution.
+		// nothing to do
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void saveInternals(File nodeInternDir, ExecutionMonitor exec)
+	protected void saveInternals(final File nodeInternDir, final ExecutionMonitor exec)
 			throws IOException, CanceledExecutionException {
-		// Ex.: Models built during execution.
+		// nothing to do
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void reset() {
-		// Ex.: Models built during execution.
+		// nothing to do
 	}
-
 }

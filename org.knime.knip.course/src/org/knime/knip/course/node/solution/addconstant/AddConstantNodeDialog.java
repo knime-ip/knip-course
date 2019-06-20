@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2013
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,59 +46,28 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.addconstant;
+package org.knime.knip.course.node.solution.addconstant;
 
-import org.knime.core.node.NodeDialogPane;
-import org.knime.core.node.NodeFactory;
-import org.knime.core.node.NodeView;
-
-import net.imglib2.type.numeric.RealType;
+import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
+import org.knime.core.node.defaultnodesettings.DialogComponentColumnNameSelection;
+import org.knime.core.node.defaultnodesettings.DialogComponentNumber;
+import org.knime.knip.base.data.img.ImgPlusValue;
 
 /**
- * Node factory for a node that adds a constant value to an image.
+ * A node dialog for a node which adds a constant value to an image.
  *
  * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  */
-public class AddConstantNodeFactory<T extends RealType<T>> extends NodeFactory<AddConstantNodeModel<T>> {
+public class AddConstantNodeDialog extends DefaultNodeSettingsPane {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected int getNrNodeViews() {
-		return 0; // No views
+	@SuppressWarnings("unchecked")
+	public AddConstantNodeDialog() {
+		super();
+		// Add dialog components:
+		// - Column Selection
+		addDialogComponent(new DialogComponentColumnNameSelection(AddConstantNodeModel.createColumnSelection(), "Image",
+				0, ImgPlusValue.class));
+		// - Value to add
+		addDialogComponent(new DialogComponentNumber(AddConstantNodeModel.createValue(), "Value", 1));
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public NodeView<AddConstantNodeModel<T>> createNodeView(int viewIndex, AddConstantNodeModel<T> nodeModel) {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean hasDialog() {
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected NodeDialogPane createNodeDialogPane() {
-		return new AddConstantNodeDialog();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public AddConstantNodeModel<T> createNodeModel() {
-		return new AddConstantNodeModel<>();
-	}
-
 }
