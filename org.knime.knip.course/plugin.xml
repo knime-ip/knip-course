@@ -15,19 +15,22 @@
       <node
             category-path="/community/knip/course/"
             deprecated="false"
-            factory-class="org.knime.knip.course.node.minmaxradius.MinMaxRadiusNodeFactory">
+            factory-class="org.knime.knip.course.node.example.copyimg.CopyImgNodeFactory">
       </node>
       <node
             category-path="/community/knip/course/"
             deprecated="false"
-            factory-class="org.knime.knip.course.node.copyimg.CopyImgNodeFactory">
+            factory-class="org.knime.knip.course.node.exercise.addconstant.AddConstantNodeFactory">
       </node>
       <node
             category-path="/community/knip/course/"
             deprecated="false"
-            factory-class="org.knime.knip.course.node.addconstant.AddConstantNodeFactory">
+            factory-class="org.knime.knip.course.node.exercise.minmaxradius.MinMaxRadiusNodeFactory">
+      </node>
+      <node
+            category-path="/community/knip/course/"
+            deprecated="false"
+            factory-class="org.knime.knip.course.node.exercise.numpixels.NumPixelsNodeFactory">
       </node>
    </extension>
-
-   
 </plugin>
