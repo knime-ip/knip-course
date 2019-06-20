@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2013
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,66 +46,27 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.minmaxradius;
+package org.knime.knip.course.node.exercise.numpixels;
 
-import org.knime.core.node.NodeDialogPane;
-import org.knime.core.node.NodeFactory;
-import org.knime.core.node.NodeView;
-
-import net.imglib2.type.numeric.RealType;
+import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
 
 /**
- * MinMaxRadiusNodeFactory.
- * 
+ * A node dialog for a node which computes for each ROI in a Labeling the number
+ * of pixels contained in the ROI.
+ *
+ * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class MinMaxRadiusNodeFactory<T extends RealType<T>, O extends RealType<O>>
-		extends NodeFactory<MinMaxRadiusNodeModel<T, O>> {
+public class NumPixelsNodeDialog extends DefaultNodeSettingsPane {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected int getNrNodeViews() {
-		// Number of views this node has.
-		return 0;
+	@SuppressWarnings("unchecked")
+	public NumPixelsNodeDialog() {
+		super();
+
+		// TODO exercise 1: Add dialog components:
+		// - Column Selection
+		// - Min size value
+
+		throw new UnsupportedOperationException("Not implemented yet");
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public NodeView<MinMaxRadiusNodeModel<T, O>> createNodeView(int viewIndex, MinMaxRadiusNodeModel<T, O> nodeModel) {
-		// Create a node view for each view.
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean hasDialog() {
-		// This example node has a node dialog which is implemented in
-		// MinMaxRadiusNodeDialog.
-		return true;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected NodeDialogPane createNodeDialogPane() {
-		// Create the NodeDialog.
-		return new MinMaxRadiusNodeDialog<>();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public MinMaxRadiusNodeModel<T, O> createNodeModel() {
-		// Create the NodeModel.
-		return new MinMaxRadiusNodeModel<>();
-	}
-
 }

@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2019
+ *  Copyright (C) 2003 - 2013
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,28 +46,28 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.skeleton;
+package org.knime.knip.course.node.solution.addconstant;
 
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
 import org.knime.core.node.NodeView;
 
+import net.imglib2.type.numeric.RealType;
+
 /**
- * Skeleton for NodeFactory
- * 
- * @author Tim-Oliver Buchholz, University of Konstanz
+ * Node factory for a node that adds a constant value to an image.
+ *
+ * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  */
-public class SkeletonNodeFactory extends NodeFactory<SkeletonNodeModel> {
+public class AddConstantNodeFactory<T extends RealType<T>> extends NodeFactory<AddConstantNodeModel<T>> {
 
 	@Override
 	protected int getNrNodeViews() {
-		// Number of views this node has.
-		return 0;
+		return 0; // No views
 	}
 
 	@Override
-	public NodeView<SkeletonNodeModel> createNodeView(final int viewIndex, final SkeletonNodeModel nodeModel) {
-		// Create a node view for each view.
+	public NodeView<AddConstantNodeModel<T>> createNodeView(int viewIndex, AddConstantNodeModel<T> nodeModel) {
 		return null;
 	}
 
@@ -78,13 +78,11 @@ public class SkeletonNodeFactory extends NodeFactory<SkeletonNodeModel> {
 
 	@Override
 	protected NodeDialogPane createNodeDialogPane() {
-		// Create the NodeDialog.
-		return new SkeletonNodeDialog();
+		return new AddConstantNodeDialog();
 	}
 
 	@Override
-	public SkeletonNodeModel createNodeModel() {
-		// Create the NodeModel.
-		return new SkeletonNodeModel();
+	public AddConstantNodeModel<T> createNodeModel() {
+		return new AddConstantNodeModel<>();
 	}
 }

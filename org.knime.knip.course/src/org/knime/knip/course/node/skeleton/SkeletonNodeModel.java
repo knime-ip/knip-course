@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -57,10 +57,11 @@ import org.knime.core.node.CanceledExecutionException;
 import org.knime.core.node.ExecutionContext;
 import org.knime.core.node.ExecutionMonitor;
 import org.knime.core.node.InvalidSettingsException;
-import org.knime.core.node.NodeLogger;
 import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
+import org.knime.knip.core.KNIPGateway;
+import org.scijava.log.LogService;
 
 /**
  * Empty skeleton for a KNIME {@link NodeModel}
@@ -74,7 +75,8 @@ import org.knime.core.node.NodeSettingsWO;
 public class SkeletonNodeModel extends NodeModel {
 
 	// The logger instance
-	private static final NodeLogger LOGGER = NodeLogger.getLogger(SkeletonNodeModel.class);
+	@SuppressWarnings("unused")
+	private static final LogService LOGGER = KNIPGateway.log();
 
 	/**
 	 * Constructor of the SkeletonNodeModel for the Table -> Table case.
@@ -83,55 +85,38 @@ public class SkeletonNodeModel extends NodeModel {
 		super(1, 1);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected DataTableSpec[] configure(DataTableSpec[] inSpecs) throws InvalidSettingsException {
+	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 		// called before node execution (e.g. when a node connection is made or
 		// dialog settings are applied). No data available.
 		return new DataTableSpec[0];
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected BufferedDataTable[] execute(BufferedDataTable[] inData, ExecutionContext exec) throws Exception {
+	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
+			throws Exception {
 		// called on node execution. Has usually no side-effects. Side-effects
 		// can be cleared e.g. on reset() or by override onDispose
 		return new BufferedDataTable[0];
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void saveSettingsTo(NodeSettingsWO settings) {
+	protected void saveSettingsTo(final NodeSettingsWO settings) {
 		// Save the current setting to the NodeSettingsModel.
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void validateSettings(NodeSettingsRO settings) throws InvalidSettingsException {
+	protected void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException {
 		// Validate the stored settings.
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void loadValidatedSettingsFrom(NodeSettingsRO settings) throws InvalidSettingsException {
+	protected void loadValidatedSettingsFrom(final NodeSettingsRO settings) throws InvalidSettingsException {
 		// Load the validated settings from the NodeSettingsModel.
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void loadInternals(File nodeInternDir, ExecutionMonitor exec)
+	protected void loadInternals(final File nodeInternDir, final ExecutionMonitor exec)
 			throws IOException, CanceledExecutionException {
 		// Load internals into the derived NodeModel. This method is only called
 		// if the Node was executed. Read all your internal structures from the
@@ -142,11 +127,8 @@ public class SkeletonNodeModel extends NodeModel {
 		// Ex.: data used after node execution to restore node state.
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void saveInternals(File nodeInternDir, ExecutionMonitor exec)
+	protected void saveInternals(final File nodeInternDir, final ExecutionMonitor exec)
 			throws IOException, CanceledExecutionException {
 		// Save internals of the derived NodeModel. This method is only called
 		// if the Node is executed. Write all your internal structures into the
@@ -156,9 +138,6 @@ public class SkeletonNodeModel extends NodeModel {
 		// Ex.: data used after node execution to restore node state
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void reset() {
 		// Reset your NodeModel. All components should unregister themselves
@@ -166,5 +145,4 @@ public class SkeletonNodeModel extends NodeModel {
 
 		// Ex.: stateful variables set during execution
 	}
-
 }

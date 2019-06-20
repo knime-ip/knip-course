@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,25 +46,31 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.copyimg;
+package org.knime.knip.course.node.solution.numpixels;
 
 import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
 import org.knime.core.node.defaultnodesettings.DialogComponentColumnNameSelection;
-import org.knime.knip.base.data.img.ImgPlusValue;
-
-import net.imglib2.type.numeric.RealType;
+import org.knime.core.node.defaultnodesettings.DialogComponentNumber;
+import org.knime.knip.base.data.labeling.LabelingValue;
 
 /**
- * CopyImgNodeDialog.
- * 
+ * A node dialog for a node which computes for each ROI in a Labeling the number
+ * of pixels contained in the ROI.
+ *
+ * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class CopyImgNodeDialog<T extends RealType<T>> extends DefaultNodeSettingsPane {
+public class NumPixelsNodeDialog extends DefaultNodeSettingsPane {
 
 	@SuppressWarnings("unchecked")
-	public CopyImgNodeDialog() {
+	public NumPixelsNodeDialog() {
 		super();
-		addDialogComponent(new DialogComponentColumnNameSelection(CopyImgNodeModel.createColumnSelection(), "Labeling",
-				0, ImgPlusValue.class));
+		// Add dialog components:
+		// - Column Selection
+		addDialogComponent(new DialogComponentColumnNameSelection(NumPixelsNodeModel.createColumnSelection(),
+				"Labeling", 0, LabelingValue.class));
+		// - Min size
+		addDialogComponent(
+				new DialogComponentNumber(NumPixelsNodeModel.createMinSegmentSize(), "Minimum Segment Size", 1));
 	}
 }

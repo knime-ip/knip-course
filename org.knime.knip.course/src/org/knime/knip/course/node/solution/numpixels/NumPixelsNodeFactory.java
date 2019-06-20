@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2013
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.ex0;
+package org.knime.knip.course.node.solution.numpixels;
 
 import org.knime.core.node.NodeDialogPane;
 import org.knime.core.node.NodeFactory;
@@ -55,50 +55,43 @@ import org.knime.core.node.NodeView;
 import net.imglib2.type.numeric.RealType;
 
 /**
- * Node factory for a node that adds a constant value to an image.
+ * A node factory for a node which computes for each ROI in a Labeling the
+ * number of pixels contained in the ROI.
  *
  * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
+ * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class AddConstantNodeFactory<T extends RealType<T>> extends NodeFactory<AddConstantNodeModel<T>> {
+public class NumPixelsNodeFactory<T extends RealType<T>, O extends RealType<O>>
+		extends NodeFactory<NumPixelsNodeModel<T, O>> {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected int getNrNodeViews() {
-		return 0; // No views
+		// Number of views this node has
+		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public NodeView<AddConstantNodeModel<T>> createNodeView(int viewIndex, AddConstantNodeModel<T> nodeModel) {
+	public NodeView<NumPixelsNodeModel<T, O>> createNodeView(final int viewIndex,
+			final NumPixelsNodeModel<T, O> nodeModel) {
+		// Create a node view for each view
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected boolean hasDialog() {
+		// This node has a node dialog which is implemented in NumPixelsNodeDialog
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected NodeDialogPane createNodeDialogPane() {
-		return new AddConstantNodeDialog();
+		// Create the NodeDialog
+		return new NumPixelsNodeDialog();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public AddConstantNodeModel<T> createNodeModel() {
-		return new AddConstantNodeModel<>();
+	public NumPixelsNodeModel<T, O> createNodeModel() {
+		// Create the NodeModel
+		return new NumPixelsNodeModel<>();
 	}
-
 }

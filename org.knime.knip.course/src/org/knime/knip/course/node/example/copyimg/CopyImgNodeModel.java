@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,7 +46,7 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.addconstant;
+package org.knime.knip.course.node.example.copyimg;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,16 +62,16 @@ import org.knime.core.node.CanceledExecutionException;
 import org.knime.core.node.ExecutionContext;
 import org.knime.core.node.ExecutionMonitor;
 import org.knime.core.node.InvalidSettingsException;
-import org.knime.core.node.NodeLogger;
 import org.knime.core.node.NodeModel;
 import org.knime.core.node.NodeSettingsRO;
 import org.knime.core.node.NodeSettingsWO;
-import org.knime.core.node.defaultnodesettings.SettingsModelDouble;
 import org.knime.core.node.defaultnodesettings.SettingsModelString;
 import org.knime.knip.base.data.img.ImgPlusCell;
 import org.knime.knip.base.data.img.ImgPlusCellFactory;
 import org.knime.knip.base.data.img.ImgPlusValue;
 import org.knime.knip.base.node.NodeUtils;
+import org.knime.knip.core.KNIPGateway;
+import org.scijava.log.LogService;
 
 import net.imagej.ImgPlus;
 import net.imglib2.Cursor;
@@ -80,112 +80,112 @@ import net.imglib2.img.Img;
 import net.imglib2.type.numeric.RealType;
 
 /**
- * Node that adds a constant value to an image.
- *
- * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
+ * A node model for a node which copies an image.
+ * 
+ * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class AddConstantNodeModel<T extends RealType<T>> extends NodeModel {
+public class CopyImgNodeModel<T extends RealType<T>> extends NodeModel {
 
-	// The logger instance
-	private static final NodeLogger LOGGER = NodeLogger.getLogger(AddConstantNodeModel.class);
+	/**
+	 * KNIP logger instance.
+	 */
+	private static final LogService LOGGER = KNIPGateway.log();
 
-	private final SettingsModelDouble m_value = createValue();
-
-	private final SettingsModelString m_columnSelection = createColumnSelection();
-
-	protected static SettingsModelDouble createValue() {
-		return new SettingsModelDouble("value", 1.0);
-	}
-
+	/**
+	 * Create a settings model for the column selection component.
+	 * 
+	 * @return SettingsModelString
+	 */
 	protected static SettingsModelString createColumnSelection() {
-		return new SettingsModelString("columnSelection", "");
+		return new SettingsModelString("ColumnSelection", "");
 	}
 
 	/**
-	 * Constructor of the AddConstantNodeModel.
+	 * Settings model of the column selection.
 	 */
-	protected AddConstantNodeModel() {
+	private SettingsModelString columnSelection = createColumnSelection();
+
+	/**
+	 * Constructor of the CopyImgNodeModel.
+	 */
+	protected CopyImgNodeModel() {
 		super(1, 1);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected DataTableSpec[] configure(DataTableSpec[] inSpecs) throws InvalidSettingsException {
+	protected DataTableSpec[] configure(final DataTableSpec[] inSpecs) throws InvalidSettingsException {
 		final DataTableSpec spec = inSpecs[0];
 
-		// Check table spec if column is available.
-		NodeUtils.autoColumnSelection(spec, m_columnSelection, ImgPlusValue.class, this.getClass());
+		// Check table spec if column is available
+		NodeUtils.autoColumnSelection(spec, columnSelection, ImgPlusValue.class, this.getClass());
 
-		// If everything looks fine, create an output table spec.
+		// If everything looks fine, create an output table spec
 		return new DataTableSpec[] { createDataTableSpec() };
 	}
 
 	/**
 	 * Create the table spec of the output table.
-	 *
-	 * @return table spec with column "Add"
+	 * 
+	 * @return table spec with column "Copy"
 	 */
 	private DataTableSpec createDataTableSpec() {
-		return new DataTableSpec(new String[] { "Add" }, new DataType[] { ImgPlusCell.TYPE });
+		return new DataTableSpec(new String[] { "Copy" }, new DataType[] { ImgPlusCell.TYPE });
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected BufferedDataTable[] execute(BufferedDataTable[] inData, ExecutionContext exec) throws Exception {
-		// The datatable passed by the first dataport.
+	protected BufferedDataTable[] execute(final BufferedDataTable[] inData, final ExecutionContext exec)
+			throws Exception {
+		// The datatable passed by the first dataport
 		final BufferedDataTable data = inData[0];
 
-		// Variables to compute progress.
+		// Variables to compute progress
 		final double numRows = data.size();
 		long currentRow = 0;
 
-		// Create a container to store the output.
+		// Create a container to store the output
 		final BufferedDataContainer container = exec.createDataContainer(createDataTableSpec());
 
 		for (final DataRow row : data) {
-			// Check if execution got canceled.
+			// Check if execution got canceled
 			exec.checkCanceled();
 
-			// Get the data cell.
+			// Get the data cell
 			final ImgPlusCell<T> cell = (ImgPlusCell<T>) row
-					.getCell(data.getSpec().findColumnIndex(m_columnSelection.getStringValue()));
+					.getCell(data.getSpec().findColumnIndex(columnSelection.getStringValue()));
 			final ImgPlusCellFactory imgPlusCellFactory = new ImgPlusCellFactory(exec);
 
 			if (cell.isMissing()) {
 				// If the cell is missing, insert missing cells and inform user
-				// via log.
+				// via log
 				container.addRowToTable(new DefaultRow(row.getKey(), new MissingCell(null), new MissingCell(null)));
 				LOGGER.warn("Missing cell in row " + row.getKey().getString() + ". Missing cell inserted.");
 			} else {
-				// Else add the constant value
-				// With iterator and randomAccess
+				// Else copy
+
+				// Simple copy
+				// container.addRowToTable(new DefaultRow(row.getKey(),
+				// imgPlusCellFactory.createCell(cell.getImgPlusCopy())));
+
+				// Copy with iterator and randomAccess
 				final ImgPlus<T> original = cell.getImgPlus();
-				final Img<T> result = original.factory().create(original);
+				final Img<T> copy = original.factory().create(original);
 
 				final Cursor<T> originalC = original.localizingCursor();
-				final RandomAccess<T> resultRA = result.randomAccess();
-
-				T val = original.firstElement();
-				val.setReal(m_value.getDoubleValue());
+				final RandomAccess<T> copyRA = copy.randomAccess();
 
 				while (originalC.hasNext()) {
 					originalC.fwd();
-					resultRA.setPosition(originalC);
+					copyRA.setPosition(originalC);
 
-					resultRA.get().set(originalC.get());
-					resultRA.get().add(val);
+					copyRA.get().set(originalC.get());
 				}
 
 				container.addRowToTable(
-						new DefaultRow(row.getKey(), imgPlusCellFactory.createCell(new ImgPlus<>(result))));
+						new DefaultRow(row.getKey(), imgPlusCellFactory.createCell(new ImgPlus<>(copy))));
 			}
 
-			// Update progress indicator.
+			// Update progress indicator
 			exec.setProgress(currentRow++ / numRows);
 		}
 
@@ -194,54 +194,33 @@ public class AddConstantNodeModel<T extends RealType<T>> extends NodeModel {
 		return new BufferedDataTable[] { container.getTable() };
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void saveSettingsTo(NodeSettingsWO settings) {
-		m_value.saveSettingsTo(settings);
-		m_columnSelection.saveSettingsTo(settings);
+	protected void saveSettingsTo(final NodeSettingsWO settings) {
+		columnSelection.saveSettingsTo(settings);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void validateSettings(NodeSettingsRO settings) throws InvalidSettingsException {
-		m_value.validateSettings(settings);
-		m_columnSelection.validateSettings(settings);
+	protected void validateSettings(final NodeSettingsRO settings) throws InvalidSettingsException {
+		columnSelection.validateSettings(settings);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void loadValidatedSettingsFrom(NodeSettingsRO settings) throws InvalidSettingsException {
-		m_value.loadSettingsFrom(settings);
-		m_columnSelection.loadSettingsFrom(settings);
+	protected void loadValidatedSettingsFrom(final NodeSettingsRO settings) throws InvalidSettingsException {
+		columnSelection.loadSettingsFrom(settings);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void loadInternals(File nodeInternDir, ExecutionMonitor exec)
+	protected void loadInternals(final File nodeInternDir, final ExecutionMonitor exec)
 			throws IOException, CanceledExecutionException {
 		// nothing to do
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected void saveInternals(File nodeInternDir, ExecutionMonitor exec)
+	protected void saveInternals(final File nodeInternDir, final ExecutionMonitor exec)
 			throws IOException, CanceledExecutionException {
 		// nothing to do
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected void reset() {
 		// nothing to do

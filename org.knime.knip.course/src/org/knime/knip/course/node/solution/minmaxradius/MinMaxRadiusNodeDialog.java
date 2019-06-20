@@ -46,45 +46,30 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.skeleton;
+package org.knime.knip.course.node.solution.minmaxradius;
 
-import org.knime.core.node.NodeDialogPane;
-import org.knime.core.node.NodeFactory;
-import org.knime.core.node.NodeView;
+import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
+import org.knime.core.node.defaultnodesettings.DialogComponentColumnNameSelection;
+import org.knime.knip.base.data.labeling.LabelingValue;
+import org.knime.knip.base.node.dialog.DialogComponentDimSelection;
 
 /**
- * Skeleton for NodeFactory
- * 
+ * A node dialog for a node which computes for each given ROI in a Labeling the
+ * minimum and maximum radius from the centroid to the perimeter.
+ *
  * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class SkeletonNodeFactory extends NodeFactory<SkeletonNodeModel> {
+public class MinMaxRadiusNodeDialog extends DefaultNodeSettingsPane {
 
-	@Override
-	protected int getNrNodeViews() {
-		// Number of views this node has.
-		return 0;
-	}
-
-	@Override
-	public NodeView<SkeletonNodeModel> createNodeView(final int viewIndex, final SkeletonNodeModel nodeModel) {
-		// Create a node view for each view.
-		return null;
-	}
-
-	@Override
-	protected boolean hasDialog() {
-		return true;
-	}
-
-	@Override
-	protected NodeDialogPane createNodeDialogPane() {
-		// Create the NodeDialog.
-		return new SkeletonNodeDialog();
-	}
-
-	@Override
-	public SkeletonNodeModel createNodeModel() {
-		// Create the NodeModel.
-		return new SkeletonNodeModel();
+	@SuppressWarnings("unchecked")
+	public MinMaxRadiusNodeDialog() {
+		super();
+		// Add dialog components:
+		// - Column Selection
+		addDialogComponent(new DialogComponentColumnNameSelection(MinMaxRadiusNodeModel.createColumnSelection(),
+				"Labeling", 0, LabelingValue.class));
+		// - Dimension Selection
+		addDialogComponent(
+				new DialogComponentDimSelection(MinMaxRadiusNodeModel.createDimSelection(), "Dimensions", 2, 2));
 	}
 }

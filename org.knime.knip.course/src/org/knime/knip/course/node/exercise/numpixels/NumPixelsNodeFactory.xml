@@ -1,0 +1,29 @@
+<!DOCTYPE knimeNode PUBLIC "-//UNIKN//DTD KNIME Node 2.0//EN" "http://www.knime.org/Node.dtd">
+<knimeNode icon="numPixels.png" type="Manipulator">
+	<name>Number of Pixels</name>
+	<shortDescription>
+		This node computes for each ROI in a Labeling the
+		number of pixels contained in the ROI.
+	</shortDescription>
+
+	<fullDescription>
+		<intro>
+			Given a Labeling this node takes all segments of the labeling
+			and computes the number of pixels of these segments. The user can
+			specify a minimum segment size such that segments that are smaller
+			are not included in the output table.
+		</intro>
+		<tab name="Options">
+			<option name="Labeling">The labeling column.</option>
+			<option name="Minimum Segment Size">The minimum size of a segment.</option>
+		</tab>
+
+	</fullDescription>
+
+	<ports>
+		<inPort index="0" name="Input Images">Input Images</inPort>
+		<outPort index="0" name="Num Pixels per Segment">Number of Pixels for each Segment and
+			each Row.
+		</outPort>
+	</ports>
+</knimeNode>

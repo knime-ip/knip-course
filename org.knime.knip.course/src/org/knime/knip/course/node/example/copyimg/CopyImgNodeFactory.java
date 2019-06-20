@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -46,22 +46,49 @@
  * --------------------------------------------------------------------- *
  *
  */
-package org.knime.knip.course.node.ex0;
+package org.knime.knip.course.node.example.copyimg;
 
-import org.knime.core.node.defaultnodesettings.DefaultNodeSettingsPane;
+import org.knime.core.node.NodeDialogPane;
+import org.knime.core.node.NodeFactory;
+import org.knime.core.node.NodeView;
+
+import net.imglib2.type.numeric.RealType;
 
 /**
- * Node settings for the constant value adder.
+ * A node factory for a node which copies an image.
  *
- * @author Benjamin Wilhelm, KNIME GmbH, Konstanz, Germany
+ * @author Tim-Oliver Buchholz, University of Konstanz
  */
-public class AddConstantNodeDialog extends DefaultNodeSettingsPane {
+public class CopyImgNodeFactory<T extends RealType<T>> extends NodeFactory<CopyImgNodeModel<T>> {
 
-	public AddConstantNodeDialog() {
-		super();
+	@Override
+	protected int getNrNodeViews() {
+		// Number of views this node has
+		return 0;
+	}
 
-		// TODO Add dialog components:
-		// - Column Selection
-		// - Double number
+	@Override
+	public NodeView<CopyImgNodeModel<T>> createNodeView(final int viewIndex, final CopyImgNodeModel<T> nodeModel) {
+		// Create a node view for each view
+		return null;
+	}
+
+	@Override
+	protected boolean hasDialog() {
+		// This example node has a node dialog which is implemented in
+		// MinMaxRadiusNodeDialog
+		return true;
+	}
+
+	@Override
+	protected NodeDialogPane createNodeDialogPane() {
+		// Create the NodeDialog
+		return new CopyImgNodeDialog();
+	}
+
+	@Override
+	public CopyImgNodeModel<T> createNodeModel() {
+		// Create the NodeModel
+		return new CopyImgNodeModel<>();
 	}
 }

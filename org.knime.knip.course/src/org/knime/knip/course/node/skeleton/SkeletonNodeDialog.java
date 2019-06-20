@@ -1,7 +1,7 @@
 /*
  * ------------------------------------------------------------------------
  *
- *  Copyright (C) 2003 - 2017
+ *  Copyright (C) 2003 - 2019
  *  University of Konstanz, Germany and
  *  KNIME GmbH, Konstanz, Germany
  *  Website: http://www.knime.org; Email: contact@knime.org
@@ -59,5 +59,6 @@ public class SkeletonNodeDialog extends DefaultNodeSettingsPane {
 
 	public SkeletonNodeDialog() {
 		super();
+		// Add dialog components using #addDialogComponent
 	}
 }
