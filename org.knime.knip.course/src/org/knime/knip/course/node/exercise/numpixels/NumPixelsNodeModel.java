@@ -189,28 +189,14 @@ public class NumPixelsNodeModel<L extends Comparable<L>, O extends RealType<O>> 
 	 */
 	private void addRows(final BufferedDataContainer container, final LabelingCell<L> cell, final RowKey key) {
 
-		// TODO exercise 5.1: Loop over the regions of the labeling and add rows with
+		// TODO exercise 5: Loop over the regions of the labeling and add rows with
 		// the number of pixels
 		// NOTE:
-		// - Use #computeNumPixels
 		// - Check if the segment is large enough
 		// - Make sure that each row has a unique row id
 
 		// TODO exercise 8: Use threads to count the number of pixels in multiple rows
 		// at the same time
-
-		throw new UnsupportedOperationException("Not implemented yet");
-	}
-
-	/**
-	 * Compute the number of pixels for one ROI.
-	 * 
-	 * @param region the ROI
-	 * @return the number of pixels of the ROI
-	 */
-	private static long computeNumPixels(final LabelRegion<?> region) {
-
-		// TODO exercise 5.2: Count the number of pixels of the given region
 
 		throw new UnsupportedOperationException("Not implemented yet");
 	}

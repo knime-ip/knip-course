@@ -84,7 +84,6 @@ import org.scijava.log.LogService;
 
 import net.imglib2.RandomAccessibleInterval;
 import net.imglib2.roi.labeling.LabelRegion;
-import net.imglib2.roi.labeling.LabelRegionCursor;
 import net.imglib2.roi.labeling.LabelRegions;
 import net.imglib2.roi.labeling.LabelingType;
 import net.imglib2.type.numeric.RealType;
@@ -224,8 +223,8 @@ public class NumPixelsNodeModel<L extends Comparable<L>, O extends RealType<O>> 
 		// Loop over the regions and start the threads
 		for (final LabelRegion<L> region : regions) {
 			final Callable<Optional<DataRow>> createRowCallable = () -> {
-				// Compute the number of pixels for this region
-				final long numPixels = computeNumPixels(region);
+				// Get the number of pixels for this region
+				final long numPixels = region.size();
 
 				// Check if the segment is large enough
 				if (numPixels >= m_minSegmentSize.getLongValue()) {
@@ -251,23 +250,6 @@ public class NumPixelsNodeModel<L extends Comparable<L>, O extends RealType<O>> 
 				LOGGER.error(e);
 			}
 		}
-	}
-
-	/**
-	 * Compute the number of pixels for one ROI.
-	 * 
-	 * @param region the ROI
-	 * @return the number of pixels of the ROI
-	 */
-	private static long computeNumPixels(final LabelRegion<?> region) {
-		long size = 0;
-
-		final LabelRegionCursor cursor = region.cursor();
-		while (cursor.hasNext()) {
-			cursor.fwd();
-			size++;
-		}
-		return size;
 	}
 
 	@Override
